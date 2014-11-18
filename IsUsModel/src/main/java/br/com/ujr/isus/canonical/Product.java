@@ -1,4 +1,4 @@
-package br.com.ujr.isus.model;
+package br.com.ujr.isus.canonical;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
