@@ -1,54 +1,26 @@
 package br.com.ujr.isus.salescenter.services.impl;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-import br.com.ujr.isus.salescenter.services.IResponseTransaction;
+import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.services.ISalesCenterService;
-import br.com.ujr.isus.salescenter.services.ITransaction;
 import br.com.ujr.isus.salescenter.services.facade.SalesCenterFacade;
-import br.com.ujr.isus.salescenter.services.model.Sale;
 
 @Path("/salescenter")
 public class SalesCenterService implements ISalesCenterService {
 	
 	private SalesCenterFacade facade = new SalesCenterFacade();
 	
-	public IResponseTransaction executeTransaction(ITransaction transaction) {
-		
-		ResponseTransaction response = ResponseTransaction.Builder.Instance()
-										.status(false)
-										.payLoad(null)
-										.errorMessage(null)
-										.build();
-		
-		switch ( transaction.getTransactionType() ) {
-		case SALE: {
-			Sale sale = this.extractPayload(transaction);
-			facade.registerSale(sale);
-			response.setStatus(true);
-			break;
-		}
-		case CANCEL_SALE: {
-			Sale sale = this.extractPayload(transaction);
-			facade.cancelSale(sale);
-			response.setStatus(true);
-			break;
-		}
-		case STATUS_SALE: {
-			Sale sale = this.extractPayload(transaction);
-			facade.getStatusSale(sale);
-			response.setStatus(true);
-			break;
-		}
-		default:
-			break;
-		}
-		
-		return response;
+	@POST
+	@Path("/order/register")
+	@Consumes("application/json")
+    @Produces({"application/json", "application/xml"})
+	public Order placeOrder(Order order) {
+		return facade.registerSale(order);
 	}
 	
-	private Sale extractPayload(ITransaction transaction) {
-		return (Sale)transaction.getPayload();
-	}
 
 }

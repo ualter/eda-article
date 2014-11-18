@@ -13,13 +13,13 @@ import java.util.List;
 
 import javax.inject.Qualifier;
 
+import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.persistance.FakeDatabase.Fake;
-import br.com.ujr.isus.salescenter.services.model.Sale;
 
 @Fake
 public class FakeDatabase implements ISaleRepository {
 
-	private List<Sale> sales = new ArrayList<Sale>();
+	private List<Order> sales = new ArrayList<Order>();
 
 	@Qualifier
 	@Retention(RUNTIME)
@@ -27,17 +27,17 @@ public class FakeDatabase implements ISaleRepository {
 	public @interface Fake {
 	}
 
-	public boolean cancel(Sale sale) {
+	public boolean cancel(Order sale) {
 		return this.sales.remove(sale);
 	}
 
-	public boolean checkStatus(Sale sale) {
+	public boolean checkStatus(Order sale) {
 		return sales.contains(sale);
 	}
 
-	public boolean save(Sale sale) {
+	public Order save(Order sale) {
 		this.sales.add(sale);
-		return true;
+		return sale;
 	}
 
 }

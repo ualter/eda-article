@@ -2,24 +2,24 @@ package br.com.ujr.isus.salescenter.services.facade;
 
 import javax.inject.Inject;
 
-import br.com.ujr.isus.salescenter.persistance.ISaleRepository;
+import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.persistance.HsqldbDatabase.Hsql;
-import br.com.ujr.isus.salescenter.services.model.Sale;
+import br.com.ujr.isus.salescenter.persistance.ISaleRepository;
 
 public class SalesCenterFacade {
 	
 	@Inject @Hsql ISaleRepository repository;
 	
-	public void registerSale(Sale sale) {
-		repository.save(sale);
+	public Order registerSale(Order order) {
+		return repository.save(order);
 	}
 	
-	public boolean getStatusSale(Sale sale) {
-		return repository.checkStatus(sale);
+	public boolean getStatusSale(Order order) {
+		return repository.checkStatus(order);
 	}
 	
-	public boolean cancelSale(Sale sale) {
-		return repository.cancel(sale);
+	public boolean cancelSale(Order order) {
+		return repository.cancel(order);
 	}
 
 }

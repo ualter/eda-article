@@ -1,13 +1,12 @@
-package br.com.ujr.isus.salescenter.services.model;
+package br.com.ujr.isus.canonical;
 
-import br.com.ujr.isus.canonical.Product;
 
-public class SaleItem {
+public class OrdemItem {
 	
 	private Product product;
 	private int total;
 	
-	public SaleItem(Product product, int total) {
+	public OrdemItem(Product product, int total) {
 		super();
 		this.product = product;
 		this.total = total;

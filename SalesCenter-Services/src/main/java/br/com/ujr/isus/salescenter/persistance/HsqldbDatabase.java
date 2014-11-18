@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 import javax.enterprise.inject.Default;
 import javax.inject.Qualifier;
 
+import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.persistance.HsqldbDatabase.Hsql;
-import br.com.ujr.isus.salescenter.services.model.Sale;
 
 @Default
 @Hsql
@@ -24,17 +24,17 @@ public class HsqldbDatabase implements ISaleRepository {
 	@Target({TYPE, METHOD, FIELD, PARAMETER})
 	public @interface Hsql {}
 	
-	public boolean save(Sale sale) {
+	public Order save(Order sale) {
+		// TODO Auto-generated method stub
+		return sale;
+	}
+
+	public boolean cancel(Order sale) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean cancel(Sale sale) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean checkStatus(Sale sale) {
+	public boolean checkStatus(Order sale) {
 		// TODO Auto-generated method stub
 		return false;
 	}
