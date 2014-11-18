@@ -15,6 +15,11 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.ujr.isus.model</groupId>
+			<artifactId>IsUsModel</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 	</dependencies>
 
