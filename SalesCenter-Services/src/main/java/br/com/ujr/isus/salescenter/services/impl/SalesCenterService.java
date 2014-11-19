@@ -1,6 +1,7 @@
 package br.com.ujr.isus.salescenter.services.impl;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +21,13 @@ public class SalesCenterService implements ISalesCenterService {
     @Produces({"application/json", "application/xml"})
 	public Order placeOrder(Order order) {
 		return facade.registerSale(order);
+	}
+	
+	@GET
+	@Path("/order/{name}")
+	@Produces({"application/json","application/xml"})
+	public String ping(String name) {
+		return "Hello there " + name;
 	}
 	
 
