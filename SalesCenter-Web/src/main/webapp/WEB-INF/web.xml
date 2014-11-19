@@ -4,14 +4,5 @@
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>Servlet 3.0 Web Application</display-name>
 
-	<servlet>
-		<servlet-name>ViewStatusMessages</servlet-name>
-		<servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>ViewStatusMessages</servlet-name>
-		<url-pattern>/logging</url-pattern>
-	</servlet-mapping>
 
 </web-app>

@@ -14,10 +14,6 @@
 	<name>SalesCenter-Ear</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -39,4 +35,33 @@
 		</dependency>
 		
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>1</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<ant antfile="${tomee-tasks-file-path}/tomee-tasks.xml" target="undeploy" />
+								<ant antfile="${tomee-tasks-file-path}/tomee-tasks.xml" target="deploy" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tomee-tasks-file-path>/Users/Ualter/Developer/eda-article/SalesCenter-Ear</tomee-tasks-file-path>
+	</properties>
 </project>
