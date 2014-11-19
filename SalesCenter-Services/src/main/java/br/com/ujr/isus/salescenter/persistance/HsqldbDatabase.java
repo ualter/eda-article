@@ -8,6 +8,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.Random;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Qualifier;
@@ -25,7 +26,8 @@ public class HsqldbDatabase implements ISaleRepository {
 	public @interface Hsql {}
 	
 	public Order save(Order sale) {
-		// TODO Auto-generated method stub
+		Random rnd = new Random(65000);
+		sale.setNumber(new Integer(rnd.nextInt()));
 		return sale;
 	}
 

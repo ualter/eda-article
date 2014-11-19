@@ -18,6 +18,7 @@ public class SalesCenterService implements ISalesCenterService {
 	
 	private SalesCenterFacade facade = new SalesCenterFacade();
 	
+	@GET
 	@POST
 	@Path("/order/register")
 	@Consumes("application/json")
