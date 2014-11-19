@@ -32,6 +32,13 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>br.com.ujr.isus.sales.center.services</groupId>
+			<artifactId>SalesCenter-Services</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
