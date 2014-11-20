@@ -8,10 +8,10 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 4225372889694816429L;
 	private Integer id;
 	private String description;
-	private BigDecimal price;
-	private Enum<Unit> unit;
+	private BigDecimal price = new BigDecimal(0);
+	private Product.Unit unit = Product.Unit.UNITARIO; 
 	
-	public Product(Integer id, String description, BigDecimal price, Enum<Unit> unit) {
+	public Product(Integer id, String description, BigDecimal price, Product.Unit unit) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -45,10 +45,10 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 	
-	public Enum<Unit> getUnit() {
+	public Product.Unit getUnit() {
 		return unit;
 	}
-	public void setUnit(Enum<Unit> unit) {
+	public void setUnit(Product.Unit unit) {
 		this.unit = unit;
 	}
 
@@ -94,7 +94,7 @@ public class Product implements Serializable {
 			this.product.setPrice(new BigDecimal(price));
 			return this;
 		}
-		public Builder unit(Enum<Unit> unit) {
+		public Builder unit(Product.Unit unit) {
 			this.product.setUnit(unit);
 			return this;
 		}

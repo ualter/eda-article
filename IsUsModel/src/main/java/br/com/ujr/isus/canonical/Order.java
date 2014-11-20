@@ -8,9 +8,9 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1327693356429477786L;
 	private Integer number;
 	private Customer customer;
-	private List<OrdemItem> itens;
+	private List<OrderItem> itens;
 	
-	public Order(Customer customer, List<OrdemItem> itens) {
+	public Order(Customer customer, List<OrderItem> itens) {
 		super();
 		this.customer = customer;
 		this.itens = itens;
@@ -32,11 +32,11 @@ public class Order implements Serializable {
 		this.customer = customer;
 	}
 
-	public List<OrdemItem> getItens() {
+	public List<OrderItem> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<OrdemItem> itens) {
+	public void setItens(List<OrderItem> itens) {
 		this.itens = itens;
 	}
 	
