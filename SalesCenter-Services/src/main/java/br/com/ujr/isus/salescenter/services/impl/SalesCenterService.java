@@ -1,7 +1,7 @@
 package br.com.ujr.isus.salescenter.services.impl;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.jws.WebParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,7 +17,8 @@ import br.com.ujr.isus.salescenter.services.facade.SalesCenterFacade;
 @Stateless
 public class SalesCenterService implements ISalesCenterService {
 	
-	private SalesCenterFacade facade = new SalesCenterFacade();
+	@EJB
+	private SalesCenterFacade facade;
 	
 	@POST
 	@Path("/order/register/")

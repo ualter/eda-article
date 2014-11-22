@@ -7,5 +7,5 @@ public interface ISaleRepository {
 	public abstract Order save(Order sale);
 	public abstract boolean cancel(Order sale);
 	public abstract boolean checkStatus(Order sale);
-
+	
 }

@@ -1,13 +1,16 @@
 package br.com.ujr.isus.salescenter.services.facade;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.persistance.ISaleRepository;
+import br.com.ujr.isus.salescenter.persistance.SaleRepositoryQualifiers.Hsql;
 
+@Stateless
 public class SalesCenterFacade {
 	
-	@Inject
+	@Inject @Hsql
 	ISaleRepository repository;
 	
 	public Order registerSale(Order order) {
