@@ -3,12 +3,12 @@ package br.com.ujr.isus.salescenter.services.facade;
 import javax.inject.Inject;
 
 import br.com.ujr.isus.canonical.Order;
-import br.com.ujr.isus.salescenter.persistance.HsqldbDatabase.Hsql;
 import br.com.ujr.isus.salescenter.persistance.ISaleRepository;
 
 public class SalesCenterFacade {
 	
-	@Inject @Hsql ISaleRepository repository;
+	@Inject
+	ISaleRepository repository;
 	
 	public Order registerSale(Order order) {
 		return repository.save(order);

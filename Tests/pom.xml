@@ -43,6 +43,20 @@
 			<artifactId>IsUsModel</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>br.com.ujr.isus.sales.center.services</groupId>
+			<artifactId>SalesCenter-Services</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 	</dependencies>

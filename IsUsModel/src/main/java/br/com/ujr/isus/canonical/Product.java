@@ -1,8 +1,12 @@
 package br.com.ujr.isus.canonical;
 
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Product implements Serializable {
 	
 	private static final long serialVersionUID = 4225372889694816429L;

@@ -1,5 +1,8 @@
 package br.com.ujr.isus.canonical;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class OrderItem {
 
 	private Product product;

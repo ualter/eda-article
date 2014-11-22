@@ -7,6 +7,7 @@ import br.com.ujr.isus.canonical.Customer;
 import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.canonical.OrderItem;
 import br.com.ujr.isus.canonical.Product;
+import br.com.ujr.isus.salescenter.services.facade.SalesCenterFacade;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +26,21 @@ public class App
      */
     public static void main( String[] args ) throws JsonProcessingException
     {
-    	ObjectMapper mapper = new ObjectMapper();
+    	// printJSONOrder();
+    	
+    	SalesCenterFacade f = new SalesCenterFacade();
+    	f.registerSale(null);
+    	
+
+
+    	
+    }
+    
+    
+    
+
+	private static void printJSONOrder() throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
     	mapper.setSerializationInclusion(Include.NON_NULL);
     	mapper.enable(SerializationFeature.INDENT_OUTPUT);
     	
@@ -39,11 +54,7 @@ public class App
     	itens.add( OrderItem.Builder.Instance().product(3, "BATTERIES", 5f, Product.Unit.UNITARIO).build()  );
     	Order order = new Order(customer,itens);
     	
-    	String json = new String();
-    	json = mapper.writeValueAsString(order);
-    	System.out.println(json);
-
-
     	
-    }
+    	System.out.println(mapper.writeValueAsString(order));
+	}
 }

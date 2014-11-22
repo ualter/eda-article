@@ -10,20 +10,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Random;
 
-import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import javax.inject.Qualifier;
 
 import br.com.ujr.isus.canonical.Order;
-import br.com.ujr.isus.salescenter.persistance.HsqldbDatabase.Hsql;
 
-@Default
-@Hsql
+/*@Default
+@Hsql*/
+@Named
 public class HsqldbDatabase implements ISaleRepository {
 
-	@Qualifier
+	/*@Qualifier
 	@Retention(RUNTIME)
 	@Target({TYPE, METHOD, FIELD, PARAMETER})
-	public @interface Hsql {}
+	public @interface Hsql {}*/
 	
 	public Order save(Order sale) {
 		Random rnd = new Random(65000);

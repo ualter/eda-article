@@ -3,6 +3,9 @@ package br.com.ujr.isus.canonical;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Order implements Serializable {
 	
 	private static final long serialVersionUID = 1327693356429477786L;
@@ -14,6 +17,8 @@ public class Order implements Serializable {
 		super();
 		this.customer = customer;
 		this.itens = itens;
+	}
+	public Order() {
 	}
 
 	public Integer getNumber() {

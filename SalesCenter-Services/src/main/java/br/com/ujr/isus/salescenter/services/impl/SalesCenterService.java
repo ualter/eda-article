@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import br.com.ujr.isus.canonical.Order;
 import br.com.ujr.isus.salescenter.services.ISalesCenterService;
@@ -18,17 +19,16 @@ public class SalesCenterService implements ISalesCenterService {
 	
 	private SalesCenterFacade facade = new SalesCenterFacade();
 	
-	@GET
 	@POST
-	@Path("/order/register")
-	@Consumes("application/json")
-    @Produces({"application/json", "application/xml"})
+	@Path("/order/register/")
+	@Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Order placeOrder(Order order) {
 		return facade.registerSale(order);
 	}
 	
 	@GET
-	@Path("/order/{nome}")
+	@Path("/hello/{nome}")
 	public String ping(@PathParam("nome") String name) {
 		return "Hello there, " + name + "!";
 	}
