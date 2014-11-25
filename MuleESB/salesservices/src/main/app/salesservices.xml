@@ -20,8 +20,9 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
 	<http:endpoint exchange-pattern="request-response" host="localhost"
 		port="8089" method="POST" name="HTTP" doc:name="HTTP" />
+    <http:endpoint exchange-pattern="request-response" host="localhost" port="8083" path="SalesCenter-Web/rest/order/register" method="POST" name="Tomee" doc:name="HTTP"/>
     <flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
-        <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8083" path="SalesCenter-Web/rest/order/register" method="POST" doc:name="HTTP"/>
+        <http:outbound-endpoint exchange-pattern="request-response"    method="POST" doc:name="HTTP" ref="Tomee"/>
         <logger message="#[payload]" level="TRACE" doc:name="Logger"/>
         <scripting:transformer doc:name="Generate UUID for Request">
             <scripting:script engine="Groovy"><![CDATA[UUID.randomUUID().toString()]]></scripting:script>

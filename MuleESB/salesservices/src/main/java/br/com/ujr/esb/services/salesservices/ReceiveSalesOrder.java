@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.ujr.esb.services.salesservices.ping.json.Person;
+import br.com.ujr.isus.canonical.OrderItem;
 
 @Path("/rest")
 public class ReceiveSalesOrder {

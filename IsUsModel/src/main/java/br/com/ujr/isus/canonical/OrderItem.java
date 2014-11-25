@@ -14,18 +14,8 @@ public class OrderItem {
 		this.product = product;
 		this.quantity = quantity;
 	}
-
-	private OrderItem() {
-		// only for Builder using //
+	public OrderItem() {
 	}
-
-	/*public float getTotal() {
-		if (this.product != null && this.product.getPrice() != null) {
-			return this.product.getPrice().floatValue() * quantity;
-		} else {
-			return 0;
-		}
-	}*/
 
 	public Product getProduct() {
 		return product;
