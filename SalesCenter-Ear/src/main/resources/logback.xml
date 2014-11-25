@@ -1,0 +1,46 @@
+<configuration scan="true" scanPeriod="60 seconds">
+
+	<appender name="multiplex"
+		class="de.huxhorn.lilith.logback.appender.ClassicMultiplexSocketAppender">
+		<Compressing>true</Compressing>
+		<ReconnectionDelay>10000</ReconnectionDelay>
+		<IncludeCallerData>true</IncludeCallerData>
+		<RemoteHosts>localhost, 10.200.55.13</RemoteHosts>
+		<!-- Alternatively: <RemoteHost>localhost</RemoteHost> <RemoteHost>10.200.55.13</RemoteHost> -->
+		<!-- Optional: <CreatingUUID>false</CreatingUUID> -->
+	</appender>
+
+	<appender name="LILITH_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/Users/ualter/Temp/salescenter_lilith.log</file>
+		<encoder class="de.huxhorn.lilith.logback.encoder.ClassicLilithEncoder">
+			<IncludeCallerData>true</IncludeCallerData>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern> ---> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/Users/ualter/Temp/salescenter.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern> ---> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="configuracao.especifica.para.um.package">
+		<level value="INFO" />
+		<appender-ref ref="LILITH_FILE" />
+	</logger>
+
+	<root level="TRACE">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LILITH_FILE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="multiplex" />
+	</root>
+
+</configuration>

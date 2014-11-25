@@ -17,6 +17,40 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!--  Dependency for Log features -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<!--  Dependency for Log features -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<!--  Dependency for Log features -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<!-- Dependency for allowed the Lilith Logging Viewer Monitoring to receive 
+			Logging of Logback by Listening Sockets -->
+		<dependency>
+			<groupId>de.huxhorn.lilith</groupId>
+			<artifactId>de.huxhorn.lilith.logback.appender.multiplex-classic</artifactId>
+			<version>0.9.44</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- Dependency for allowed the Lilith Logging Viewer Monitoring to read 
+			Logging of Logback by Files Format -->
+		<dependency>
+			<groupId>de.huxhorn.lilith</groupId>
+			<artifactId>de.huxhorn.lilith.logback.encoder.classic</artifactId>
+			<version>0.9.44</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<modules>

@@ -1,0 +1,12 @@
+<project default="build" basedir="." name="r2d2-logback-tasks">
+	
+	<property name="arquivo" value="./src/main/application/lib/logback-config.jar"/>
+
+	<target name="build">
+		<echo message="Building logback-config.jar" />
+		<delete file="${arquivo}"/>
+		<jar destfile="${arquivo}" basedir="./src/main/resources">
+		</jar>
+	</target>
+	
+</project>
