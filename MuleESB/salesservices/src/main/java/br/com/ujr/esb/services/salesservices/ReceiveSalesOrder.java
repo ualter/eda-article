@@ -24,7 +24,10 @@ public class ReceiveSalesOrder {
 		br.com.ujr.isus.canonical.Order order = request.getOrder();
 		System.out.println(order.getCustomer().getName());
 		order.setNumber(new Integer(-1));
-		return order;
+		return MessageResponse.Builder.Instance()
+								.orderNumber(order.getNumber())
+								.correlationId("2")
+								.build();
 	}
 	
 	

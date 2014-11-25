@@ -8,23 +8,24 @@ public class OrderItem {
 	private Product product;
 	private int quantity;
 
-	public OrderItem(Product product, int total) {
+	
+	public OrderItem(Product product, int quantity) {
 		super();
 		this.product = product;
-		this.quantity = total;
+		this.quantity = quantity;
 	}
 
 	private OrderItem() {
 		// only for Builder using //
 	}
 
-	public float getTotal() {
+	/*public float getTotal() {
 		if (this.product != null && this.product.getPrice() != null) {
 			return this.product.getPrice().floatValue() * quantity;
 		} else {
 			return 0;
 		}
-	}
+	}*/
 
 	public Product getProduct() {
 		return product;
