@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.ujr.esb.services.salesservices.ping.json.Person;
-import br.com.ujr.isus.canonical.OrderItem;
+import br.com.ujr.isus.canonical.Order;
 
 @Path("/rest")
 public class ReceiveSalesOrder {
@@ -21,14 +21,15 @@ public class ReceiveSalesOrder {
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
 	//public Response receiveSalesOrder(br.com.ujr.isus.canonical.Order order) {
-	public MessageResponse receiveSalesOrder(MessageRequest request) {
+	public Order receiveSalesOrder(MessageRequest request) {
 		br.com.ujr.isus.canonical.Order order = request.getOrder();
 		System.out.println(order.getCustomer().getName());
 		order.setNumber(new Integer(-1));
-		return MessageResponse.Builder.Instance()
+		return request.getOrder();
+		/*return MessageResponse.Builder.Instance()
 								.orderNumber(order.getNumber())
 								.correlationId("2")
-								.build();
+								.build();*/
 	}
 	
 	
