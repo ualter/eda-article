@@ -26,10 +26,10 @@ public class App
      */
     public static void main( String[] args ) throws JsonProcessingException
     {
-    	// printJSONOrder();
+    	printJSONOrder();
     	
-    	SalesCenterFacade f = new SalesCenterFacade();
-    	f.registerSale(null);
+    	/*SalesCenterFacade f = new SalesCenterFacade();
+    	f.registerSale(null);*/
     	
 
 
@@ -43,6 +43,8 @@ public class App
 		ObjectMapper mapper = new ObjectMapper();
     	mapper.setSerializationInclusion(Include.NON_NULL);
     	mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    	mapper.enable(SerializationFeature.CLOSE_CLOSEABLE);
+    	mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
     	
     	Customer customer = Customer.Builder.Instance().id(10)
     												   .name("Ualter")

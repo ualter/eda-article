@@ -1,0 +1,36 @@
+{
+   "order" : 
+	{
+	  "customer" : {
+	    "id" : 10,
+	    "name" : "Ualter",
+	    "city" : "Sao Paulo",
+	    "country" : "Brasil"
+	  },
+	  "itens" : [ {
+	    "product" : {
+	      "id" : 1,
+	      "description" : "HEADPHONE",
+	      "price" : 12.35,
+	      "unit" : "UNITARIO"
+	    },
+	    "quantity" : 0
+	  }, {
+	    "product" : {
+	      "id" : 2,
+	      "description" : "MP3 PLAYER",
+	      "price" : 250,
+	      "unit" : "UNITARIO"
+	    },
+	    "quantity" : 0
+	  }, {
+	    "product" : {
+	      "id" : 3,
+	      "description" : "BATTERIES",
+	      "price" : 5,
+	      "unit" : "UNITARIO"
+	    },
+	    "quantity" : 0
+	  } ]
+	}
+}

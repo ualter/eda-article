@@ -11,7 +11,6 @@ public class MessageResponse {
 	private Integer orderNumber;
 	private String correlationId;
 	
-	
 	public MessageResponse(Integer orderNumber, String correlationId) {
 		this.orderNumber = orderNumber;
 		this.correlationId = correlationId;
@@ -34,13 +33,12 @@ public class MessageResponse {
 	
 	public static class Builder {
 		private MessageResponse msgResponse;
-		private static final Builder me = new Builder();
 		
 		private Builder() {
 			this.msgResponse = new MessageResponse();
 		}
 		public static Builder Instance() {
-			return me;
+			return new Builder();
 		}
 		public Builder orderNumber(Integer orderNumber) {
 			this.msgResponse.setOrderNumber(orderNumber);
