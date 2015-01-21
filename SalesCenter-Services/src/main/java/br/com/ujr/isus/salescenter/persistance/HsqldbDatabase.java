@@ -15,12 +15,10 @@ public class HsqldbDatabase implements ISaleRepository {
 	}
 
 	public boolean cancel(Order sale) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean checkStatus(Order sale) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
