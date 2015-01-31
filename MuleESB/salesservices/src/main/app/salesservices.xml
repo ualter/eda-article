@@ -24,8 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
     <flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" doc:name="Call SalesCenter Service"/>
         <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://localhost:8083/SalesCenter-Web/rest/order/register/" doc:name="HTTP"/>
-        <set-variable variableName="orderNumber" value="#[message.payload]" doc:name="Receive Order Number"/>
-        <echo-component doc:name="Echo"/>
+        <component class="SaveOrderNumber" doc:name="Java"/>
 
 
         <scripting:transformer doc:name="Generate UUID for Request">
