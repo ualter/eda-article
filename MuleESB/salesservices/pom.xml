@@ -423,10 +423,12 @@
 			<artifactId>IsUsModel</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<!-- <dependency> <groupId>com.espertech</groupId> <artifactId>esper</artifactId> 
+			<version>5.1.0</version> </dependency> -->
 		<dependency>
-			<groupId>com.espertech</groupId>
-			<artifactId>esper</artifactId>
-			<version>5.1.0</version>
+			<groupId>org.mule.module.esper</groupId>
+			<artifactId>esper-module</artifactId>
+			<version>LATEST</version>
 		</dependency>
 
 		<dependency>

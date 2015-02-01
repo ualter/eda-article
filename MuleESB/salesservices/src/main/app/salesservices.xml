@@ -6,6 +6,7 @@
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:esper="http://www.mulesoft.org/schema/mule/esper"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -17,20 +18,25 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
 http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/esper http://www.mulesoft.org/schema/mule/esper/current/mule-esper.xsd">
 
+	<esper:config configuration="esper-config.xml"/>
 	
     <flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" doc:name="Call SalesCenter Service"/>
         <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://localhost:8083/SalesCenter-Web/rest/order/register/" doc:name="HTTP"/>
-        <component class="br.com.ujr.esb.services.salesservices.SaveOrderNumber" doc:name="Java"/>
+        <component class="br.com.ujr.esb.services.salesservices.SetOrderNumberVariable" doc:name="Save Order Number to Variable"/>
 
 
         <scripting:transformer doc:name="Generate UUID for Request">
             <scripting:script engine="Groovy"><![CDATA[UUID.randomUUID().toString()]]></scripting:script>
         </scripting:transformer>
         
-        <custom-transformer class="br.com.ujr.esb.services.salesservices.CompoundMessageResponseObject" doc:name="Java"/>
+        <custom-transformer class="br.com.ujr.esb.services.salesservices.CompoundMessageResponseObject" doc:name="Build Message Response"/>
+        
+        <esper:send eventPayload-ref="#[payload:]"/>
+        <esper:send eventPayload-ref="#[payload.orderNumber]"/>
 
     </flow>
     
@@ -40,10 +46,17 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
         <jersey:resources doc:name="Receive Sales Order">
             <component class="br.com.ujr.esb.services.salesservices.ReceiveSalesOrder"/>
         </jersey:resources>
+        <component class="br.com.ujr.esb.services.salesservices.SetOrderVariable" doc:name="Save Order to Variable"/>
 
 
         <flow-ref name="SendOrderToSalesCenter" doc:name="Send Order to Sales Center"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
 
+    </flow>
+    
+    <flow name="EventListenerFlow" doc:name="EventListenerFlow">
+        <esper:listen statement="select count(*) from MessageResponse"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="aqui"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Number of files last minute: #[groovy:payload.get('count(*)')]" />
     </flow>
 </mule>
