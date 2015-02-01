@@ -5,6 +5,6 @@
                 http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
  
     <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.MessageResponse"/>
-    <event-type name="Order" class="br.com.ujr.isus.canonical.Order"/>
+    <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
  
 </esper-configuration>

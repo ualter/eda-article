@@ -24,9 +24,11 @@ http://www.mulesoft.org/schema/mule/esper http://www.mulesoft.org/schema/mule/es
 	<esper:config configuration="esper-config.xml"/>
 	
     <flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
+
+    
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" doc:name="Call SalesCenter Service"/>
         <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://localhost:8083/SalesCenter-Web/rest/order/register/" doc:name="HTTP"/>
-        <component class="br.com.ujr.esb.services.salesservices.SetOrderNumberVariable" doc:name="Save Order Number to Variable"/>
+        <component class="br.com.ujr.esb.services.salesservices.SaveOrderNumberToVariable" doc:name="Save Order Number to Variable"/>
 
 
         <scripting:transformer doc:name="Generate UUID for Request">
@@ -36,8 +38,7 @@ http://www.mulesoft.org/schema/mule/esper http://www.mulesoft.org/schema/mule/es
         <custom-transformer class="br.com.ujr.esb.services.salesservices.CompoundMessageResponseObject" doc:name="Build Message Response"/>
         
         <esper:send eventPayload-ref="#[payload:]"/>
-        <esper:send eventPayload-ref="#[payload.orderNumber]"/>
-
+        <esper:send eventPayload-ref="#[flowVars.Order]"/>
     </flow>
     
     
@@ -46,7 +47,7 @@ http://www.mulesoft.org/schema/mule/esper http://www.mulesoft.org/schema/mule/es
         <jersey:resources doc:name="Receive Sales Order">
             <component class="br.com.ujr.esb.services.salesservices.ReceiveSalesOrder"/>
         </jersey:resources>
-        <component class="br.com.ujr.esb.services.salesservices.SetOrderVariable" doc:name="Save Order to Variable"/>
+        <component class="br.com.ujr.esb.services.salesservices.SaveOrderToVariable" doc:name="Save Order to Variable"/>
 
 
         <flow-ref name="SendOrderToSalesCenter" doc:name="Send Order to Sales Center"/>
@@ -54,9 +55,19 @@ http://www.mulesoft.org/schema/mule/esper http://www.mulesoft.org/schema/mule/es
 
     </flow>
     
-    <flow name="EventListenerFlow" doc:name="EventListenerFlow">
-        <esper:listen statement="select count(*) from MessageResponse"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="aqui"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="Number of files last minute: #[groovy:payload.get('count(*)')]" />
+    <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
+        <!-- <esper:listen statement="select  Math.round(itens.sumOf(i => i.quantity * i.product.price) * 100) / 100.00f as totalOrder from OrderPedido"/> -->
+        <esper:listen statement="select  itens.sumOf(i => i.quantity * i.product.price) as totalOrder from OrderPedido"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.get('totalOrder')]" />
+    </flow>
+    
+    <flow name="Event-Listener-Average-Total-Order-60s" doc:name="Event-Listener-Average-Total-Order-60s">
+        <esper:listen statement="select  Math.round(avg(itens.sumOf(i => i.quantity * i.product.price)) * 100) / 100.00 as averageTotalOrder60 from OrderPedido"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Average Total Order Last 60 secs: #[groovy:payload.get('averageTotalOrder60')]" />
+    </flow>
+    
+     <flow name="Event-Listener2" doc:name="Event-Listener2">
+        <esper:listen statement="select customer.name from OrderPedido"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Customer: #[groovy:payload.get('customer.name')]" />
     </flow>
 </mule>

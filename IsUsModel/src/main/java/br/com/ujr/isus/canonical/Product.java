@@ -12,10 +12,10 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 4225372889694816429L;
 	private Integer id;
 	private String description;
-	private BigDecimal price = new BigDecimal(0);
+	private float price = 0;
 	private Product.Unit unit = Product.Unit.UNITARIO; 
 	
-	public Product(Integer id, String description, BigDecimal price, Product.Unit unit) {
+	public Product(Integer id, String description, float price, Product.Unit unit) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -41,11 +41,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public BigDecimal getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 	
@@ -90,12 +90,8 @@ public class Product implements Serializable {
 			this.product.setDescription(description);
 			return this;
 		}
-		public Builder price(BigDecimal price) {
-			this.product.setPrice(price);
-			return this;
-		}
 		public Builder price(float price) {
-			this.product.setPrice(new BigDecimal(price));
+			this.product.setPrice(price);
 			return this;
 		}
 		public Builder unit(Product.Unit unit) {

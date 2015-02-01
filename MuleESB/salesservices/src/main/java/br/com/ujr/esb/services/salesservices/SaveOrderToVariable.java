@@ -7,7 +7,7 @@ import org.mule.api.lifecycle.Callable;
 
 import br.com.ujr.isus.canonical.Order;
 
-public class SetOrderVariable implements Callable {
+public class SaveOrderToVariable implements Callable {
 
 	@Override
 	public Object onCall(MuleEventContext eventContext) throws Exception {
@@ -15,8 +15,7 @@ public class SetOrderVariable implements Callable {
 		ObjectMapper om = new ObjectMapper();
 		om.configure(Feature.UNWRAP_ROOT_VALUE, true);
 		Order order = om.readValue(restOrder, Order.class);
-		System.out.println(order);
-		
+		eventContext.getMessage().setInvocationProperty("Order", order);
 		return eventContext.getMessage().getPayload();
 	}
 
