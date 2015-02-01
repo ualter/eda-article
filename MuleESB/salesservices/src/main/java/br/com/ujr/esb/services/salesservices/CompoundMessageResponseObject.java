@@ -1,8 +1,8 @@
+package br.com.ujr.esb.services.salesservices;
 import org.mule.api.MuleMessage;
 import org.mule.api.transformer.TransformerException;
 import org.mule.transformer.AbstractMessageTransformer;
 
-import br.com.ujr.esb.services.salesservices.MessageResponse;
 
 public class CompoundMessageResponseObject extends AbstractMessageTransformer {
 

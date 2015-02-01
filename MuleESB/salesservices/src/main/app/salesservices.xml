@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:json="http://www.mulesoft.org/schema/mule/json"
 	xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
@@ -20,28 +19,31 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
 
-
+	
     <flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" doc:name="Call SalesCenter Service"/>
         <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://localhost:8083/SalesCenter-Web/rest/order/register/" doc:name="HTTP"/>
-        <component class="SaveOrderNumber" doc:name="Java"/>
+        <component class="br.com.ujr.esb.services.salesservices.SaveOrderNumber" doc:name="Java"/>
 
 
         <scripting:transformer doc:name="Generate UUID for Request">
             <scripting:script engine="Groovy"><![CDATA[UUID.randomUUID().toString()]]></scripting:script>
         </scripting:transformer>
-        <custom-transformer class="CompoundMessageResponseObject" doc:name="Java"/>
-        <echo-component doc:name="Echo"/>
+        
+        <custom-transformer class="br.com.ujr.esb.services.salesservices.CompoundMessageResponseObject" doc:name="Java"/>
+
     </flow>
+    
+    
     <flow name="REST-Endpoint" doc:name="REST-Endpoint" doc:description="Receive sales orders by REST">
         <http:inbound-endpoint exchange-pattern="request-response"  doc:name="HTTP/REST" host="localhost" path="mule" port="8081"/>
         <jersey:resources doc:name="Receive Sales Order">
             <component class="br.com.ujr.esb.services.salesservices.ReceiveSalesOrder"/>
         </jersey:resources>
-        <echo-component doc:name="Echo"/>
 
 
         <flow-ref name="SendOrderToSalesCenter" doc:name="Send Order to Sales Center"/>
-        <echo-component doc:name="Echo"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+
     </flow>
 </mule>
