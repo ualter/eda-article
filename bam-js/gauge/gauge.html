@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Speedometer</title>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
+    
+    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+	<script type="text/javascript" src="gauge.js"></script>
+	<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    
+    <style>
+        body {
+            font: 16px arial;
+            background-color: #e5e5e5;
+        }
+
+        .unselectable {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* css formats for the gauge */
+        .gauge .domain {
+            stroke-width: 4px;
+            stroke: #000;
+        }
+
+        .gauge .tick line {
+            stroke: #000;
+            stroke-width: 6px;
+        }
+        
+        .gauge line {
+            stroke: #000;
+        }
+
+        .gauge .arc, .gauge .cursor {
+            opacity: 0;
+        }
+
+        .gauge .major {
+            fill: #000;
+            font-size: 20px;
+            font-family: 'Play', Verdana, sans-serif;
+            font-weight: normal;
+        }
+        
+        .gauge .indicator {
+            stroke: #EE3311;
+            fill: #000;
+            stroke-width: 6px;
+        }
+
+        /* css formats for the segment display */
+        .segdisplay .on {
+            fill: #7f7f7f;
+
+        }
+
+        .segdisplay .off {
+            //fill: #00FFFF;
+			fill: #7f7f7f;
+            opacity: 0.15;
+        }
+    </style>
+	
+	<script>
+	
+		var gauge;
+		var segDisplay;
+		
+		var gauges = [];
+		
+		function createGauge(name, label, min, max)
+		{
+			var config = 
+			{
+				size: 240,
+				label: label,
+				min: undefined != min ? min : 0,
+				max: undefined != max ? max : 1000,
+				minorTicks: 5
+			}
+			
+			var range = config.max - config.min;
+			config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+			config.redZones = [{ from: config.min + range*0.9, to: config.max }];
+			
+			gauges[name] = new Gauge(name + "GaugeContainer", config);
+			gauges[name].render();
+		}
+		
+		function createGauges()
+		{
+			createGauge("memory", "Memory");
+			createGauge("cpu", "CPU");
+			createGauge("network", "Network");
+			//createGauge("test", "Test", -50, 50 );
+		}
+		
+		function updateGauges()
+		{
+			for (var key in gauges)
+			{
+				var value = getRandomValue(gauges[key])
+				gauges[key].redraw(value);
+			}
+			
+			segDisplay.value(5477);
+			gauge.value(5477);
+		}
+		
+		function getRandomValue(gauge)
+		{
+			var overflow = 0; //10;
+			return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
+		}
+		
+		function initialize()
+		{
+			createGauges();
+			setInterval(updateGauges, 5000);
+		}
+	</script>
+	<script>
+		
+		// Section Web Socket
+		function WebSocketTest()
+		{
+		  if ("WebSocket" in window)
+		  {
+			 alert("WebSocket is supported by your Browser!");
+			 var ws = new WebSocket("ws://localhost:9998/echo");
+			 ws.onopen = function()
+			 {
+				// Web Socket is connected, send data using send()
+				ws.send("Message to send");
+				alert("Message is sent...");
+			 };
+			 ws.onmessage = function (evt) 
+			 { 
+				var received_msg = evt.data;
+				alert("Message is received...");
+			 };
+			 ws.onclose = function()
+			 { 
+				alert("Connection is closed..."); 
+			 };
+		  } else {
+			 alert("WebSocket NOT supported by your Browser!");
+		  }
+		}
+	</script>
+</head>
+<body  onload="initialize()">
+	<table border="1">
+		<tr>
+			<td>
+				<div>
+					<span id="speedometer"></span>
+				</div>
+				<script>
+					var svg = d3.select("#speedometer")
+							.append("svg:svg")
+							.attr("width", 530)
+							.attr("height", 450);
+
+
+					gauge = iopctrl.arcslider()
+							.radius(220)
+							.events(false)
+							.indicator(iopctrl.defaultGaugeIndicator);
+					gauge.axis().orient("in")
+							.normalize(true)
+							.ticks(12)
+							.tickSubdivide(3)
+							.tickSize(10, 8, 10)
+							.tickPadding(5)
+							.scale(d3.scale.linear()
+									.domain([0, 8000])
+									.range([-3*Math.PI/4, 3*Math.PI/4]));
+
+					segDisplay = iopctrl.segdisplay()
+							.width(120)
+							.digitCount(6)
+							.negative(false)
+							.decimals(0);
+
+					svg.append("g")
+							.attr("class", "segdisplay")
+							.attr("transform", "translate(210, 310)")
+							.call(segDisplay);
+
+					svg.append("g")
+							.attr("class", "gauge")
+							.call(gauge);
+
+					segDisplay.value(8000);
+					gauge.value(2000);
+				</script>
+			</td>
+			<td>
+				<span id="memoryGaugeContainer"></span>
+				<span id="cpuGaugeContainer"></span>
+				<span id="networkGaugeContainer"></span>
+				<span id="testGaugeContainer"></span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="see">
+				   <a href="javascript:WebSocketTest()">Run WebSocket</a>
+				</div>
+			</td>
+		</tr
+	</table>
+    
+</body>

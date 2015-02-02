@@ -1,0 +1,4 @@
+<spring:bean id="datasource" name="datasource" class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown">
+     <spring:property name="driverName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+     <spring:property name="url" value="jdbc:derby:memory:blogdemo"/>
+</spring:bean>

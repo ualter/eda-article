@@ -46,14 +46,13 @@ public class App
     	mapper.enable(SerializationFeature.CLOSE_CLOSEABLE);
     	mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
     	
-    	Customer customer = Customer.Builder.Instance().id(10)
-    												   .name("Ualter")
-    												   .city("Sao Paulo")
+    	Customer customer = Customer.Builder.Instance().id(77)
+    												   .name("Aparecida da Silva Oliveira")
+    												   .city("Rio de Janeiro")
     												   .country("Brasil").build();
     	List<OrderItem> itens = new ArrayList<OrderItem>();
-    	itens.add( OrderItem.Builder.Instance().product(1, "HEADPHONE", 12.30f, Product.Unit.UNITARIO).build()  );
-    	itens.add( OrderItem.Builder.Instance().product(2, "MP3 PLAYER", 250.00f, Product.Unit.UNITARIO).build()  );
-    	itens.add( OrderItem.Builder.Instance().product(3, "BATTERIES", 5f, Product.Unit.UNITARIO).build()  );
+    	itens.add( OrderItem.Builder.Instance().product(123, "Traveisseiro", 110f, Product.Unit.UNITARIO).quantity(3).build()  );
+    	itens.add( OrderItem.Builder.Instance().product(45, "Conjunto Cama e Mesa Toalhas", 58f, Product.Unit.UNITARIO).quantity(1).build()  );
     	Order order = new Order(customer,itens);
     	
     	
