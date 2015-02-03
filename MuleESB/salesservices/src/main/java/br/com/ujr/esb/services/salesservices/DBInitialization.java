@@ -10,15 +10,14 @@ public class DBInitialization implements InitializingBean {
 	
 	public void afterPropertiesSet() throws Exception {
 		
-		String dbURL = "jdbc:derby:memory:blogdemo;create=true";
+		String dbURL = "jdbc:derby:memory:salesservice;create=true";
 		Connection conn = null;
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 			// Get a connection
 			conn = DriverManager.getConnection(dbURL);
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("CREATE TABLE table1 (Name VARCHAR(255), External_ID__c VARCHAR(255), Value__c INTEGER, Last_Modified TIMESTAMP)");
-			stmt.executeUpdate("CREATE TABLE table2 (somecolumn VARCHAR(20), somecode VARCHAR(80))");
+			stmt.executeUpdate("CREATE TABLE TableTotalOrderByCityStream (CITY VARCHAR(255), QTDE INTEGER)");
 		} 
 		catch (java.sql.SQLException sqle) {
 			sqle.printStackTrace();

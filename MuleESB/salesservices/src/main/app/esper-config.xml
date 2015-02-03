@@ -6,5 +6,32 @@
  
     <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.MessageResponse"/>
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
- 
+    <event-type name="EventTotalOrderByCityStream"  class="br.com.ujr.esb.services.salesservices.events.TotalOrderByCity"/>
+    
+    <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
+      <config-xml>	
+        <esperio-db-configuration>
+        
+        	<jdbc-connection name="esperEvents">
+		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby:memory:salesservice;create=false"  user="" password="" />
+		    	<connection-settings auto-commit="true"/>
+		    </jdbc-connection>
+		    
+		     <upsert connection="esperEvents" stream="EventTotalOrderByCityStream" name="UpdateTotalOrderByCityStream" table-name="TableTotalOrderByCityStream" executor-name="queue1" retry="3">
+				<keys>
+					<column property="city"  column="CITY" type="varchar"/>
+				</keys>
+				<values>
+					<column property="total" column="QTDE" type="integer"/>
+				</values>
+		    </upsert>
+		    
+		    <executors>
+			  <executor name="queue1" threads="2"/>
+		    </executors>  
+		    
+        </esperio-db-configuration>
+     </config-xml>
+  </plugin-loader>
+    
 </esper-configuration>

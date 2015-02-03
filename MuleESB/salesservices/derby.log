@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Mon Feb 02 23:07:43 BRST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-014b-4cfa-8bf1-00000d7e9940 
+on database directory memory:C:\Users\Ualter\Developer\eda-article\MuleESB\salesservices\salesservice  with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/Ualter/Developer/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/lib/opt/derby-10.9.1.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_20-b26
+user.dir=C:\Users\Ualter\Developer\eda-article\MuleESB\salesservices
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
