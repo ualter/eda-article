@@ -88,8 +88,11 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     </flow> -->
     
     <flow name="Event-Listener-Total-Order-By-City" doc:name="Event-Listener-Total-Order-By-City">
-        <esper:listen statement="select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) as EventTotalOrderByCityStream group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.get('city')] #[groovy:payload.get('total')]" />
+        <!-- <esper:listen statement="select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) as EventTotalOrderByCityStream group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/> -->
+        <!-- <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.get('city')] #[groovy:payload.get('total')]" /> -->
+        <esper:listen statement="insert into TotalOrderByCity select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload]" />
+        <!-- <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.get('TotalOrderByCity')]" /> -->
     </flow>
     
     <flow name="salesservicesFlow1" doc:name="salesservicesFlow1">
@@ -100,6 +103,7 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8090" path="events" doc:name="HTTP"/>
         <db:select config-ref="Derby_Configuration" doc:name="Database">
             <db:dynamic-query><![CDATA[select * from TableTotalOrderByCityStream]]></db:dynamic-query>
+
         </db:select>
         <echo-component doc:name="Echo"/>
         <scripting:component doc:name="Groovy">

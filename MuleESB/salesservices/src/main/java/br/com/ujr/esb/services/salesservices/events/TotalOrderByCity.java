@@ -3,7 +3,7 @@ package br.com.ujr.esb.services.salesservices.events;
 public class TotalOrderByCity {
 	
 	private String city;
-	private int total;
+	private long total;
 	
 	public String getCity() {
 		return city;
@@ -11,10 +11,10 @@ public class TotalOrderByCity {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public int getTotal() {
+	public long getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
 	

@@ -6,7 +6,7 @@
  
     <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.MessageResponse"/>
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
-    <event-type name="EventTotalOrderByCityStream"  class="br.com.ujr.esb.services.salesservices.events.TotalOrderByCity"/>
+    <event-type name="TotalOrderByCity"  class="br.com.ujr.esb.services.salesservices.events.TotalOrderByCity"/>
     
     <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
       <config-xml>	
@@ -17,7 +17,7 @@
 		    	<connection-settings auto-commit="true"/>
 		    </jdbc-connection>
 		    
-		     <upsert connection="esperEvents" stream="EventTotalOrderByCityStream" name="UpdateTotalOrderByCityStream" table-name="TableTotalOrderByCityStream" executor-name="queue1" retry="3">
+		     <upsert connection="esperEvents" stream="TotalOrderByCity" name="UpdateTotalOrderByCityStream" table-name="TableTotalOrderByCityStream" executor-name="queue1" retry="3">
 				<keys>
 					<column property="city"  column="CITY" type="varchar"/>
 				</keys>
