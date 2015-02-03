@@ -3,7 +3,6 @@
 <head>
     <title>Speedometer</title>
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
-    
     <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
     <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
     <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
@@ -122,43 +121,39 @@
 			return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
 		}
 		
+	</script>
+	<script>
+		function loadEventsFromESB() {
+			var xmlhttp;
+			
+			if (window.XMLHttpRequest) {
+			  // code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			} else{
+			  // code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			
+			xmlhttp.onreadystatechange = function() {
+			  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				alert(xmlhttp.responseText);
+			  } else {
+				alert(xmlhttp.status + "-"  + xmlhttp.responseText);
+			  }
+			}
+			xmlhttp.open("POST","http://localhost:8090/events",true);
+			xmlhttp.send();
+		}
+		
 		function initialize()
 		{
 			createGauges();
-			setInterval(updateGauges, 5000);
-		}
-	</script>
-	<script>
-		
-		// Section Web Socket
-		function WebSocketTest()
-		{
-		  if ("WebSocket" in window)
-		  {
-			 alert("WebSocket is supported by your Browser!");
-			 var ws = new WebSocket("ws://localhost:9998/echo");
-			 ws.onopen = function()
-			 {
-				// Web Socket is connected, send data using send()
-				ws.send("Message to send");
-				alert("Message is sent...");
-			 };
-			 ws.onmessage = function (evt) 
-			 { 
-				var received_msg = evt.data;
-				alert("Message is received...");
-			 };
-			 ws.onclose = function()
-			 { 
-				alert("Connection is closed..."); 
-			 };
-		  } else {
-			 alert("WebSocket NOT supported by your Browser!");
-		  }
+			//setInterval(updateGauges, 5000);
+			//loadEventsFromESB();
 		}
 	</script>
 </head>
-<body  onload="initialize()">
+<body  onload="initialize();loadEventsFromESB()">
 	<table border="1">
 		<tr>
 			<td>
@@ -212,13 +207,5 @@
 				<span id="testGaugeContainer"></span>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<div id="see">
-				   <a href="javascript:WebSocketTest()">Run WebSocket</a>
-				</div>
-			</td>
-		</tr
 	</table>
-    
 </body>

@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     <spring:beans>
         <spring:bean id="jdbcDataSource" name="jdbcDataSource" class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown">
             <spring:property name="driverName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-            <spring:property name="url" value="jdbc:derby:memory:salesservice"/>
+            <spring:property name="url" value="jdbc:derby:dbEvents"/>
         </spring:bean>
     </spring:beans>
 	
@@ -88,27 +88,18 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     </flow> -->
     
     <flow name="Event-Listener-Total-Order-By-City" doc:name="Event-Listener-Total-Order-By-City">
-        <!-- <esper:listen statement="select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) as EventTotalOrderByCityStream group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/> -->
-        <!-- <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.get('city')] #[groovy:payload.get('total')]" /> -->
         <esper:listen statement="insert into TotalOrderByCity select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload]" />
-        <!-- <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.get('TotalOrderByCity')]" /> -->
+        <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.getCity()] #[groovy:payload.getTotal()]" />
     </flow>
-    
-    <flow name="salesservicesFlow1" doc:name="salesservicesFlow1">
-        <ajax:inbound-endpoint channel="/services" connector-ref="Ajax" responseTimeout="10000" doc:name="Ajax"/>
-        <echo-component doc:name="Echo"/>
-    </flow>
+
     <flow name="salesservicesFlow2" doc:name="salesservicesFlow2">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8090" path="events" doc:name="HTTP"/>
         <db:select config-ref="Derby_Configuration" doc:name="Database">
             <db:dynamic-query><![CDATA[select * from TableTotalOrderByCityStream]]></db:dynamic-query>
 
         </db:select>
-        <echo-component doc:name="Echo"/>
-        <scripting:component doc:name="Groovy">
-            <scripting:script engine="Groovy"><![CDATA[UUID.randomUUID().toString()]]></scripting:script>
-        </scripting:component>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+
     </flow>
     
     
