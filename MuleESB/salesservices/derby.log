@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Feb 03 16:55:16 BRST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-014b-50cb-ec30-000009ef66b0 
+Wed Feb 04 11:54:07 BRST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-014b-54de-911c-00000d3d3f48 
 on database directory C:\Users\pool\Documents\Developer\projects\eda-article\MuleESB\salesservices\dbEvents  with class loader sun.misc.Launcher$AppClassLoader@237aaeec 
 Loaded from file:/C:/Users/pool/Documents/Developer/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/lib/opt/derby-10.9.1.0.jar
 java.vendor=Oracle Corporation

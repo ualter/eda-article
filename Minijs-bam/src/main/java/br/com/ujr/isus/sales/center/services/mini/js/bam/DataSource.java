@@ -3,12 +3,14 @@ package br.com.ujr.isus.sales.center.services.mini.js.bam;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.xml.crypto.Data;
+
 import org.apache.commons.dbcp.BasicDataSource;
 
 public class DataSource {
 
 	private String driver = "org.apache.derby.jdbc.ClientDriver";
-	private String dbURL = "jdbc:derby:memory:myDB;create=true";
+	private String dbURL = "jdbc:derby:/derbyDBs/dbEvents";
 
 	private static DataSource datasource;
 	private BasicDataSource ds;
@@ -47,6 +49,10 @@ public class DataSource {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static void main(String[] args) {
+		Connection conn = DataSource.getInstance().getConnection();
 	}
 
 }
