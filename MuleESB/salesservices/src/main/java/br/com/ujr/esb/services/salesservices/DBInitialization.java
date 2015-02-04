@@ -10,11 +10,12 @@ public class DBInitialization implements InitializingBean {
 
 	public void afterPropertiesSet() throws Exception {
 
-		String dbURL = "jdbc:derby:dbEvents;create=true";
+		String dbURL = "jdbc:derby:/derbyDBs/dbEvents;create=true";
 		// String dbURL = "jdbc:derby:dbEvents";
 		Connection conn = null;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+			//Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+			Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
 			// Get a connection
 			conn = DriverManager.getConnection(dbURL);
 			Statement stmt = conn.createStatement();

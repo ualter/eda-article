@@ -13,7 +13,7 @@
         <esperio-db-configuration>
         
         	<jdbc-connection name="esperEvents">
-		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby:dbEvents"  user="" password="" />
+		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby:/derbyDBs/dbEvents"  user="" password="" />
 		    	<connection-settings auto-commit="true"/>
 		    </jdbc-connection>
 		    

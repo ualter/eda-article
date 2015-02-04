@@ -429,13 +429,22 @@
 			<artifactId>IsUsModel</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<!-- <dependency> <groupId>com.espertech</groupId> <artifactId>esper</artifactId> 
-			<version>5.1.0</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.mule.module.esper</groupId>
 			<artifactId>esper-module</artifactId>
 			<version>LATEST</version>
 		</dependency>
+
+		<!-- Not a good idea - but for fake projects it's OK -->
+		<dependency>
+			<groupId>esperio</groupId>
+			<artifactId>esperio-db</artifactId>
+			<version>5.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/esperio-db-5.1.0.jar</systemPath>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.mule.modules</groupId>
@@ -459,11 +468,10 @@
 			<artifactId>derby</artifactId>
 			<version>10.11.1.1</version>
 		</dependency>
-
 		<dependency>
-			<groupId>com.espertech</groupId>
-			<artifactId>esperio-db</artifactId>
-			<version>5.1.0</version>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>10.11.1.1</version>
 		</dependency>
 
 
