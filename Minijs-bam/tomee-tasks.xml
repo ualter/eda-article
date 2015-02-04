@@ -1,0 +1,75 @@
+<project default="deploy" basedir="." name="MiniJSBam-tomee-tasks">
+
+	<target name="showVariables">
+		<property environment="my_env" />
+		<echo>
+			Here are sample environment variables in my operating system:
+			${my_env.classpath}
+			${my_env.CommonProgramFiles}
+			${my_env.CommonProgramFiles(x86)}
+			${my_env.CommonProgramW6432}
+			${my_env.java_home}
+		</echo>
+	</target>
+
+	<target name="deploy">
+		<echo message="Deploy on Tomee of MiniJSBam WebApp" />
+		<property file="tomee-tasks.properties" />
+		<exec executable="cmd">
+		    <env key="CATALINA_HOME" value="${catalina.home}" />
+			<arg value="/c" />
+			<arg value="${tomee.path}/bin/tomee.bat" />
+			<arg value="deploy" />
+			<arg value="${minijsbam.path}" />
+		</exec>
+	</target>
+
+	<target name="undeploy">
+		<echo message="Undeploy on Tomee of SalesCenter-EAR" />
+		<property file="tomee-tasks.properties" />
+		<exec executable="cmd">
+		    <env key="CATALINA_HOME" value="${catalina.home}" />
+			<arg value="/c" />
+			<arg value="${tomee.path}/bin/tomee.bat" />
+			<arg value="undeploy" />
+			<arg value="${minijsbam.id.deploy}" />
+		</exec>
+	</target>
+
+	<target name="start-tomee">
+		<property file="tomee-tasks.properties" />
+		<exec executable="cmd">
+		    <env key="CATALINA_HOME" value="${catalina.home}" />
+			<arg value="/c" />
+			<arg value="${tomee.path}/bin/catalina.bat" />
+			<arg value="start" />
+		</exec>
+	</target>
+
+	<target name="stop-tomee">
+		<property file="tomee-tasks.properties" />
+		<exec executable="cmd">
+		    <env key="CATALINA_HOME" value="${catalina.home}" />
+			<arg value="/c" />
+			<arg value="${tomee.path}/bin/catalina.bat" />
+			<arg value="stop" />
+		</exec>
+	</target>
+	
+	<target name="start-tomee-debugMode">
+		<property file="tomee-tasks.properties" />
+		<exec executable="cmd">
+		    <env key="CATALINA_HOME" value="${catalina.home}" />
+			<arg value="/c" />
+			<arg value="${tomee.path}/bin/catalina.bat" />
+			<arg value="jpda start" />
+		</exec>	
+	</target>
+
+	<target name="tests">
+		<exec executable="open">
+			<arg line="http://localhost:8083/minijs-bam/index.jsp" />
+		</exec>
+	</target>
+
+</project>
