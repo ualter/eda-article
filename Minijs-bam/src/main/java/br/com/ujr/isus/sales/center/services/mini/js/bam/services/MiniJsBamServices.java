@@ -3,6 +3,7 @@ package br.com.ujr.isus.sales.center.services.mini.js.bam.services;
 import java.util.ArrayList;
 
 import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Model;
 import javax.inject.Named;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Named
-public class MiniJsBamServices implements IMiniJsBamServices {
+public class MiniJsBamServices  {
 
 	public String ping() {
 		String result = "";

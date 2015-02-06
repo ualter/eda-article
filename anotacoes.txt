@@ -1,0 +1,1 @@
+set DEV_HOME=c:/Users/pool/Documents/Developer
