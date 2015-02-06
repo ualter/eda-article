@@ -1,0 +1,31 @@
+<html>
+<head>
+<script>
+	function checkForEvents() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var jsonString = xmlhttp.responseText;
+				alert(jsonString);
+				var object = JSON.parse(jsonString);
+				alert(object.ArrayList[0]);
+			} else {
+				if ( xmlhttp.readyState == 4 ) {
+					alert(xmlhttp.status);
+				}
+			}
+		}
+		xmlhttp.open("GET", "/minijs-bam/events", true);
+		xmlhttp.send();
+	}
+</script>
+</head>
+<body>
+	<input type="button" value=" . " onclick="javascript:checkForEvents();" />
+</body>
+</html>

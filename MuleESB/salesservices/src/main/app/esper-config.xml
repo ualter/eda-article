@@ -6,14 +6,14 @@
  
     <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.MessageResponse"/>
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
-    <event-type name="TotalOrderByCity"  class="br.com.ujr.esb.services.salesservices.events.TotalOrderByCity"/>
+    <event-type name="TotalOrderByCity"  class="br.com.ujr.isus.canonical.events.TotalOrderByCity"/>
     
     <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
       <config-xml>	
         <esperio-db-configuration>
         
         	<jdbc-connection name="esperEvents">
-		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby:/derbyDBs/dbEvents"  user="" password="" />
+		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby://localhost:1527/DBEsperEvents;user=me;password=mine"  user="" password="" />
 		    	<connection-settings auto-commit="true"/>
 		    </jdbc-connection>
 		    

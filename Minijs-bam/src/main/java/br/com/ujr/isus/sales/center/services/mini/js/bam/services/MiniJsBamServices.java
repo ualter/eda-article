@@ -1,15 +1,19 @@
-package br.com.ujr.isus.sales.center.services.mini.js.bam;
+package br.com.ujr.isus.sales.center.services.mini.js.bam.services;
 
 import java.util.ArrayList;
+
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class MiniJsBamServices {
+@Named
+public class MiniJsBamServices implements IMiniJsBamServices {
 
-	public String getTotalOrderByCity() {
+	public String ping() {
 		String result = "";
 
 		ObjectMapper mapper = new ObjectMapper();

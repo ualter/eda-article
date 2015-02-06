@@ -10,7 +10,7 @@ public class DBInitialization implements InitializingBean {
 
 	public void afterPropertiesSet() throws Exception {
 
-		String dbURL = "jdbc:derby:/derbyDBs/dbEvents;create=true";
+		String dbURL = "jdbc:derby://localhost:1527/DBEsperEvents;create=true;user=me;password=mine";
 		// String dbURL = "jdbc:derby:dbEvents";
 		Connection conn = null;
 		try {

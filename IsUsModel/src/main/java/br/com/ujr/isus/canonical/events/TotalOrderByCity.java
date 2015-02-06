@@ -1,4 +1,4 @@
-package br.com.ujr.esb.services.salesservices.events;
+package br.com.ujr.isus.canonical.events;
 
 public class TotalOrderByCity {
 	

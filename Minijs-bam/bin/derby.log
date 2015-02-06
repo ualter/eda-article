@@ -1,5 +1,5 @@
-Thu Feb 05 10:08:01 BRST 2015 Thread[main,5,main] Cleanup action starting
-java.sql.SQLException: Failed to start database '/derbyDBs/dbEvents' with class loader sun.misc.Launcher$AppClassLoader@617df472, see the next exception for details.
+Wed Feb 04 14:09:00 BRST 2015 Thread[main,5,main] Cleanup action starting
+java.sql.SQLException: Failed to start database '/derbyDBs/dbEvents' with class loader sun.misc.Launcher$AppClassLoader@21c3dc66, see the next exception for details.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.seeNextException(Unknown Source)
@@ -17,7 +17,7 @@ java.sql.SQLException: Failed to start database '/derbyDBs/dbEvents' with class 
 	at org.apache.commons.dbcp.BasicDataSource.getConnection(BasicDataSource.java:1044)
 	at br.com.ujr.isus.sales.center.services.mini.js.bam.DataSource.getConnection(DataSource.java:48)
 	at br.com.ujr.isus.sales.center.services.mini.js.bam.DataSource.main(DataSource.java:55)
-Caused by: ERROR XJ040: Failed to start database '/derbyDBs/dbEvents' with class loader sun.misc.Launcher$AppClassLoader@617df472, see the next exception for details.
+Caused by: ERROR XJ040: Failed to start database '/derbyDBs/dbEvents' with class loader sun.misc.Launcher$AppClassLoader@21c3dc66, see the next exception for details.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
 	... 17 more

@@ -1,16 +1,16 @@
-package br.com.ujr.isus.sales.center.services.mini.js.bam;
+package br.com.ujr.isus.sales.center.services.mini.js.bam.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.xml.crypto.Data;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
 public class DataSource {
 
 	private String driver = "org.apache.derby.jdbc.ClientDriver";
-	private String dbURL = "jdbc:derby:/derbyDBs/dbEvents";
+	private String dbURL = "jdbc:derby://localhost:1527/DBEsperEvents;user=me;password=mine";
 
 	private static DataSource datasource;
 	private BasicDataSource ds;
@@ -51,8 +51,14 @@ public class DataSource {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		Connection conn = DataSource.getInstance().getConnection();
+		PreparedStatement st = conn.prepareStatement("SELECT * FROM TableTotalOrderByCityStream");
+		ResultSet rs = st.executeQuery();
+		
+		while ( rs.next() ) {
+			System.out.println(rs.getString(1));
+		}
 	}
 
 }
