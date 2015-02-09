@@ -1,8 +1,8 @@
 package br.com.ujr.isus.sales.center.services.mini.js.bam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,35 +11,62 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.ujr.isus.sales.center.services.mini.js.bam.services.MiniJsBamServices;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 @Named
-@WebServlet(name = "MiniJsBamController", urlPatterns = { "/events", "/ping" }, loadOnStartup = 1)
+@WebServlet(name = "MiniJsBamController", urlPatterns = { "/totalOrderByCities", "/ping" }, loadOnStartup = 1)
 public class MiniJsBamController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	/*@Inject
-	private MiniJsBamServices services;*/
+	private MiniJsBamServices services = new MiniJsBamServices();
 	
-	/*@Resource
-	private ServletContext servletContext;*/
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String path = req.getServletPath();
-
+		
+		String jsonContent = "";
 		switch (path) {
-			case "/events":
+			case "/totalOrderByCities":
+				jsonContent = this.transformToJson ( this.services.getTotalOrderByCity() );
 				break;
 			case "/ping":
-				//resp.getWriter().write( services.ping());
+				jsonContent = this.ping();
 				break;
 			default:
 				break;
 		}
+		resp.getWriter().write( jsonContent );
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.getWriter().write("Sorry! We are working only with GET for the sake of simplicity, this is not a real project.");
+	}
+	
+	private String ping() {
+		ArrayList<String> str = new ArrayList<String>();
+		str.add("UALTER");
+		return this.transformToJson(str);
+	}
+	
+	private String transformToJson(Object obj) {
+		String result = "";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.enable(SerializationFeature.CLOSE_CLOSEABLE);
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+
+		try {
+			result = mapper.writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return result;
 	}
 
 }
