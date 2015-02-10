@@ -1,31 +1,231 @@
 <html>
-<head>
-<script>
-	function checkForEvents() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var jsonString = xmlhttp.responseText;
-				alert(jsonString);
-				var object = JSON.parse(jsonString);
-				alert(object.ArrayList[0]);
-			} else {
-				if ( xmlhttp.readyState == 4 ) {
-					alert(xmlhttp.status);
+  <head>
+		<title>Mini JS BAM</title>
+	    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
+	    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+	    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+		<script type="text/javascript" src="js/gauge.js"></script>
+		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+	    
+	    <style>
+	        body {
+	            font: 16px arial;
+	            background-color: #e5e5e5;
+				margin: 50px 50px 50px 50px;
+	        }
+			table {
+				border-collapse: collapse;
+			}
+	
+	        .unselectable {
+	            -moz-user-select: -moz-none;
+	            -khtml-user-select: none;
+	            -webkit-user-select: none;
+	            -ms-user-select: none;
+	            user-select: none;
+	        }
+	
+	        /* css formats for the gauge */
+	        .gauge .domain {
+	            stroke-width: 4px;
+	            stroke: #000;
+	        }
+	
+	        .gauge .tick line {
+	            stroke: #000;
+	            stroke-width: 6px;
+	        }
+	        
+	        .gauge line {
+	            stroke: #000;
+	        }
+	
+	        .gauge .arc, .gauge .cursor {
+	            opacity: 0;
+	        }
+	
+	        .gauge .major {
+	            fill: #000;
+	            font-size: 20px;
+	            font-family: 'Play', Verdana, sans-serif;
+	            font-weight: normal;
+	        }
+	        
+	        .gauge .indicator {
+	            stroke: #EE3311;
+	            fill: #000;
+	            stroke-width: 6px;
+	        }
+	
+	        /* css formats for the segment display */
+	        .segdisplay .on {
+	            fill: #7f7f7f;
+	
+	        }
+	
+	        .segdisplay .off {
+	            //fill: #00FFFF;
+				fill: #7f7f7f;
+	            opacity: 0.15;
+	        }
+	    </style>
+		
+		<script type="text/javascript">
+		
+			var gauge;
+			var segDisplay;
+			
+			var gauges = [];
+			
+			function createGauge(name, label, min, max)
+			{
+				var config = 
+				{
+					size: 250,
+					label: label,
+					min: undefined != min ? min : 0,
+					max: undefined != max ? max : 5000,
+					minorTicks: 10
+				}
+				
+				var range = config.max - config.min;
+				config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+				config.redZones = [{ from: config.min + range*0.9, to: config.max }];
+				
+				gauges[name] = new Gauge(name + "GaugeContainer", config);
+				gauges[name].render();
+			}
+			
+			function createGauges()
+			{
+				createGauge("saopaulo", "Sao Paulo");
+				createGauge("poa", "Porto Alegre");
+				createGauge("curitiba", "Curitiba");
+			}
+			
+			function updateGauges()
+			{
+				for (var key in gauges)
+				{
+					var value = getRandomValue(gauges[key])
+					gauges[key].redraw(value);
+				}
+				
+				segDisplay.value(5477);
+				gauge.value(5477);
+			}
+			
+			function getRandomValue(gauge)
+			{
+				var overflow = 0; //10;
+				return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
+			}
+			
+			function initialize()
+			{
+				createGauges();
+				//setInterval(updateGauges, 5000);
+			}
+			
+			function send(uri, callBack) {
+				var xmlhttp;
+				if (window.XMLHttpRequest) {
+					xmlhttp = new XMLHttpRequest();
+				} else {
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						var jsonString = xmlhttp.responseText;
+						var object = JSON.parse(jsonString);
+						callBack(object);
+					} else {
+						if ( xmlhttp.readyState == 4 ) {
+							alert(xmlhttp.status);
+						}
+					}
+				}
+				xmlhttp.open("GET", "http://localhost:8083/minijs-bam/" + uri, true);
+				xmlhttp.send();
+			}
+			
+			function updateTotalOrderByCities() {
+				send("totalOrderByCities", callBackTotalOrderByCities);
+			}
+			function callBackTotalOrderByCities(totalOrderByCities) {
+				for(var i = 0; i < totalOrderByCities.length; i++) {
+					var totalOrderCity = totalOrderByCities[i];
+					if ( totalOrderCity.city == "Sao Paulo" ) {
+						gauges["saopaulo"].redraw(totalOrderCity.total);
+					}
 				}
 			}
-		}
-		xmlhttp.open("GET", "/minijs-bam/events", true);
-		xmlhttp.send();
-	}
-</script>
-</head>
-<body>
-	<input type="button" value=" . " onclick="javascript:checkForEvents();" />
-</body>
+		</script>
+ </head>
+ <body  onload="initialize();">
+ 	<input type="button" value= " . " onClick="javascript:updateTotalOrderByCities()" />
+	<table border="1" cellpadding="10">
+		<tr>
+			<td align="center" style="background-color:darkgray;color:white;">
+				<b>Total de Pedidos</b>
+			</td>
+			<td align="center" style="background-color:darkgray;color:white;">
+				<b>Total de Pedidos Principais Cidades</b>
+			</td>
+		</tr>	
+		<tr>
+			<td>
+				<div>
+					<span id="speedometer"></span>
+				</div>
+				<script>
+					var svg = d3.select("#speedometer")
+							.append("svg:svg")
+							.attr("width", 460)
+							.attr("height", 400);
+
+
+					gauge = iopctrl.arcslider()
+							.radius(180)
+							.events(false)
+							.indicator(iopctrl.defaultGaugeIndicator);
+					gauge.axis().orient("in")
+							.normalize(true)
+							.ticks(12)
+							.tickSubdivide(3)
+							.tickSize(10, 8, 10)
+							.tickPadding(5)
+							.scale(d3.scale.linear()
+									.domain([0, 8000])
+									.range([-3*Math.PI/4, 3*Math.PI/4]));
+
+					segDisplay = iopctrl.segdisplay()
+							.width(120)
+							.digitCount(6)
+							.negative(false)
+							.decimals(0);
+
+					svg.append("g")
+							.attr("class", "segdisplay")
+							.attr("transform", "translate(170, 280)")
+							.call(segDisplay);
+
+					svg.append("g")
+							.attr("class", "gauge")
+							.call(gauge);
+
+					segDisplay.value(8000);
+					gauge.value(2000);
+				</script>
+			</td>
+			<td> 
+				<span id="saopauloGaugeContainer"></span>
+				<span id="poaGaugeContainer"></span>
+				<span id="curitibaGaugeContainer"></span>
+			</td>
+		</tr>
+	</table>
+ </body>
 </html>

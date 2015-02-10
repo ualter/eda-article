@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Speedometer</title>
+    <title>Mini JS BAM</title>
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
     <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
     <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
@@ -14,7 +14,11 @@
         body {
             font: 16px arial;
             background-color: #e5e5e5;
+			margin: 50px 50px 50px 50px;
         }
+		table {
+			border-collapse: collapse;
+		}
 
         .unselectable {
             -moz-user-select: -moz-none;
@@ -80,11 +84,11 @@
 		{
 			var config = 
 			{
-				size: 240,
+				size: 250,
 				label: label,
 				min: undefined != min ? min : 0,
-				max: undefined != max ? max : 1000,
-				minorTicks: 5
+				max: undefined != max ? max : 5000,
+				minorTicks: 10
 			}
 			
 			var range = config.max - config.min;
@@ -97,10 +101,9 @@
 		
 		function createGauges()
 		{
-			createGauge("memory", "Memory");
-			createGauge("cpu", "CPU");
-			createGauge("network", "Network");
-			//createGauge("test", "Test", -50, 50 );
+			createGauge("saopaulo", "São Paulo");
+			createGauge("poa", "Porto Alegre");
+			createGauge("curitiba", "Curitiba");
 		}
 		
 		function updateGauges()
@@ -121,40 +124,25 @@
 			return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
 		}
 		
-	</script>
-	<script>
-		function loadEventsFromESB() {
-			var xmlhttp;
-			
-			if (window.XMLHttpRequest) {
-			  // code for IE7+, Firefox, Chrome, Opera, Safari
-			  xmlhttp=new XMLHttpRequest();
-			} else{
-			  // code for IE6, IE5
-			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			
-			xmlhttp.onreadystatechange = function() {
-			  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				alert(xmlhttp.responseText);
-			  } else {
-				alert(xmlhttp.status + "-"  + xmlhttp.responseText);
-			  }
-			}
-			xmlhttp.open("POST","http://localhost:8090/events",true);
-			xmlhttp.send();
-		}
-		
 		function initialize()
 		{
 			createGauges();
 			//setInterval(updateGauges, 5000);
 			//loadEventsFromESB();
 		}
+		
 	</script>
 </head>
-<body  onload="initialize();loadEventsFromESB()">
-	<table border="1">
+<body  onload="initialize()">
+	<table border="1" cellpadding="10">
+		<tr>
+			<td align="center" style="background-color:darkgray;color:white;">
+				<b>Total de Pedidos</b>
+			</td>
+			<td align="center" style="background-color:darkgray;color:white;">
+				<b>Total de Pedidos Principais Cidades</b>
+			</td>
+		</tr>	
 		<tr>
 			<td>
 				<div>
@@ -163,12 +151,12 @@
 				<script>
 					var svg = d3.select("#speedometer")
 							.append("svg:svg")
-							.attr("width", 530)
-							.attr("height", 450);
+							.attr("width", 460)
+							.attr("height", 400);
 
 
 					gauge = iopctrl.arcslider()
-							.radius(220)
+							.radius(180)
 							.events(false)
 							.indicator(iopctrl.defaultGaugeIndicator);
 					gauge.axis().orient("in")
@@ -189,7 +177,7 @@
 
 					svg.append("g")
 							.attr("class", "segdisplay")
-							.attr("transform", "translate(210, 310)")
+							.attr("transform", "translate(170, 280)")
 							.call(segDisplay);
 
 					svg.append("g")
@@ -200,11 +188,10 @@
 					gauge.value(2000);
 				</script>
 			</td>
-			<td>
-				<span id="memoryGaugeContainer"></span>
-				<span id="cpuGaugeContainer"></span>
-				<span id="networkGaugeContainer"></span>
-				<span id="testGaugeContainer"></span>
+			<td> 
+				<span id="saopauloGaugeContainer"></span>
+				<span id="poaGaugeContainer"></span>
+				<span id="curitibaGaugeContainer"></span>
 			</td>
 		</tr>
 	</table>

@@ -59,7 +59,7 @@ public class MiniJsBamController extends HttpServlet {
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.enable(SerializationFeature.CLOSE_CLOSEABLE);
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 
 		try {
 			result = mapper.writeValueAsString(obj);
@@ -68,5 +68,24 @@ public class MiniJsBamController extends HttpServlet {
 		}
 		return result;
 	}
+	
+	/*private class Message {
+		private String transaction;
+		private Object payload;
+		private Message() {
+		}
+		public String getTransaction() {
+			return transaction;
+		}
+		public void setTransaction(String transaction) {
+			this.transaction = transaction;
+		}
+		public Object getPayload() {
+			return payload;
+		}
+		public void setPayload(Object payload) {
+			this.payload = payload;
+		}
+	}*/
 
 }

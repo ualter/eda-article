@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @Named
 public class MiniJsBamServices  {
 
-	public List<TotalOrderByCity> getTotalOrderByCity() {
+	public TotalOrderByCity[] getTotalOrderByCity() {
 		List<TotalOrderByCity> listTotalOrderByCities = new ArrayList<TotalOrderByCity>();
 		
 		Connection conn;
@@ -44,7 +44,10 @@ public class MiniJsBamServices  {
 			throw new RuntimeException(e);
 		}
 		
-		return listTotalOrderByCities;
+		TotalOrderByCity[] result = new TotalOrderByCity[listTotalOrderByCities.size()];
+		listTotalOrderByCities.toArray(result);
+		
+		return result;
 	}
 
 }
