@@ -159,6 +159,12 @@
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
+					} else
+					if ( totalOrderCity.city == "Porto Alegre" ) {
+						gauges["poa"].redraw(totalOrderCity.total);
+					} else
+					if ( totalOrderCity.city == "Curitiba" ) {
+						gauges["curitiba"].redraw(totalOrderCity.total);
 					}
 				}
 			}
