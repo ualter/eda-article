@@ -105,7 +105,7 @@
 				createGauge("curitiba", "Curitiba");
 			}
 			
-			function updateGauges()
+			/* function updateGauges()
 			{
 				for (var key in gauges)
 				{
@@ -115,7 +115,7 @@
 				
 				segDisplay.value(5477);
 				gauge.value(5477);
-			}
+			} */
 			
 			function getRandomValue(gauge)
 			{
@@ -126,7 +126,7 @@
 			function initialize()
 			{
 				createGauges();
-				//setInterval(updateGauges, 5000);
+				setInterval(updateTotalOrderByCities, 3000);
 			}
 			
 			function send(uri, callBack) {
@@ -151,6 +151,11 @@
 				xmlhttp.send();
 			}
 			
+			function updateTotalOrders() {
+				/* segDisplay.value(5477);
+				gauge.value(5477); */
+			}
+			
 			function updateTotalOrderByCities() {
 				send("totalOrderByCities", callBackTotalOrderByCities);
 			}
@@ -159,11 +164,9 @@
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
-					} else
-					if ( totalOrderCity.city == "Porto Alegre" ) {
+					} else if ( totalOrderCity.city == "Porto Alegre" ) {
 						gauges["poa"].redraw(totalOrderCity.total);
-					} else
-					if ( totalOrderCity.city == "Curitiba" ) {
+					} else if ( totalOrderCity.city == "Curitiba" ) {
 						gauges["curitiba"].redraw(totalOrderCity.total);
 					}
 				}
