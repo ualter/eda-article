@@ -1,13 +1,13 @@
 <html>
   <head>
 		<title>Mini JS BAM</title>
-	    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
-	    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+	    <link rel='stylesheet' href='styles.css' type='text/css'>
+	    <script type="text/javascript" src="js/d3.v3.min.js"></script>
 	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
-	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
-	    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+    	<script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+	    <script type="text/javascript" src="js/iopctrl.js"></script>
 		<script type="text/javascript" src="js/gauge.js"></script>
-		<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+		<script type="text/javascript" src="js/d3.js"></script>
 	    
 	    <style>
 	        body {
@@ -86,7 +86,7 @@
 					size: 250,
 					label: label,
 					min: undefined != min ? min : 0,
-					max: undefined != max ? max : 5000,
+					max: undefined != max ? max : 3000,
 					minorTicks: 10
 				}
 				
@@ -126,7 +126,7 @@
 			function initialize()
 			{
 				createGauges();
-				setInterval(updateTotalOrderByCities, 3000);
+				setInterval(updateTotalOrderByCities, 1000);
 			}
 			
 			function send(uri, callBack) {
@@ -160,15 +160,16 @@
 				send("totalOrderByCities", callBackTotalOrderByCities);
 			}
 			function callBackTotalOrderByCities(totalOrderByCities) {
+				console.log ( 'Called' );
 				for(var i = 0; i < totalOrderByCities.length; i++) {
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
-					} else if ( totalOrderCity.city == "Porto Alegre" ) {
+					}/*  else if ( totalOrderCity.city == "Porto Alegre" ) {
 						gauges["poa"].redraw(totalOrderCity.total);
 					} else if ( totalOrderCity.city == "Curitiba" ) {
-						gauges["curitiba"].redraw(totalOrderCity.total);
-					}
+						gauges["curitiba"].redraw(totalOrderCity.total); 
+					}*/
 				}
 			}
 		</script>
