@@ -9,8 +9,8 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 public class DataSource {
 
-	private String driver = "org.apache.derby.jdbc.ClientDriver";
-	private String dbURL = "jdbc:derby://localhost:1527/DBEsperEvents;user=me;password=mine";
+	private String driver = "com.mysql.jdbc.Driver";
+	private String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=root&password=root";
 
 	private static DataSource datasource;
 	private BasicDataSource ds;
@@ -53,12 +53,12 @@ public class DataSource {
 	
 	public static void main(String[] args) throws SQLException {
 		Connection conn = DataSource.getInstance().getConnection();
-		PreparedStatement st = conn.prepareStatement("SELECT * FROM TableTotalOrderByCityStream");
+		/*PreparedStatement st = conn.prepareStatement("SELECT * FROM TableTotalOrderByCityStream");
 		ResultSet rs = st.executeQuery();
 		
 		while ( rs.next() ) {
 			System.out.println(rs.getString(1));
-		}
+		}*/
 	}
 
 }

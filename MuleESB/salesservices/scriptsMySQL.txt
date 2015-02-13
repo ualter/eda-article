@@ -1,0 +1,7 @@
+	CREATE DATABASE DbEvents;
+	
+	USE DbEvents;
+	
+	CREATE TABLE TableTotalOrderByCityStream (CITY VARCHAR(255), QTDE INTEGER);
+	
+	CREATE TABLE TableTotalOrder (QTDE INTEGER);

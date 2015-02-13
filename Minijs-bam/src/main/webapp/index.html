@@ -3,10 +3,11 @@
 		<title>Mini JS BAM</title>
 	    <link rel='stylesheet' href='styles.css' type='text/css'>
 	    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+	    <!-- 
 	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
-    	<script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    	<script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script> -->
 	    <script type="text/javascript" src="js/iopctrl.js"></script>
-		<script type="text/javascript" src="js/gauge.js"></script>
+		<!-- <script type="text/javascript" src="js/gauge.js"></script>  -->
 		<script type="text/javascript" src="js/d3.js"></script>
 	    
 	    <style>
@@ -77,7 +78,7 @@
 			var gauge;
 			var segDisplay;
 			
-			var gauges = [];
+			/* var gauges = [];
 			
 			function createGauge(name, label, min, max)
 			{
@@ -103,7 +104,7 @@
 				createGauge("saopaulo", "Sao Paulo");
 				createGauge("poa", "Porto Alegre");
 				createGauge("curitiba", "Curitiba");
-			}
+			} */
 			
 			/* function updateGauges()
 			{
@@ -117,17 +118,18 @@
 				gauge.value(5477);
 			} */
 			
-			function getRandomValue(gauge)
+			/* function getRandomValue(gauge)
 			{
 				var overflow = 0; //10;
 				return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
 			}
-			
+			*/
 			function initialize()
 			{
-				createGauges();
-				setInterval(updateTotalOrderByCities, 1000);
-			}
+				//createGauges();
+				updateTotalOrderByCities();
+				//setInterval(ping, 2000);
+			} 
 			
 			function send(uri, callBack) {
 				var xmlhttp;
@@ -156,25 +158,37 @@
 				gauge.value(5477); */
 			}
 			
+			function ping() {
+				send("ping", callPing);
+			}
+			function callPing() {
+				ii = ii + 1;
+				console.log ( ii + ' Called Ping...' );
+			}
+			
+			var ii = 0;
 			function updateTotalOrderByCities() {
+				console.log ( ii + ' Calling... TotalOrderByCities' );
 				send("totalOrderByCities", callBackTotalOrderByCities);
 			}
 			function callBackTotalOrderByCities(totalOrderByCities) {
-				console.log ( 'Called' );
-				for(var i = 0; i < totalOrderByCities.length; i++) {
+				console.log ( 'Called TotalOrderByCities.' );
+				/* for(var i = 0; i < totalOrderByCities.length; i++) {
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
-					}/*  else if ( totalOrderCity.city == "Porto Alegre" ) {
+					}  else if ( totalOrderCity.city == "Porto Alegre" ) {
 						gauges["poa"].redraw(totalOrderCity.total);
 					} else if ( totalOrderCity.city == "Curitiba" ) {
 						gauges["curitiba"].redraw(totalOrderCity.total); 
-					}*/
-				}
+					}
+				} */
+				setTimeout(updateTotalOrderByCities,5000);
 			}
 		</script>
  </head>
- <body  onload="initialize();">
+  
+ <body onload="initialize();">
  	<input type="button" value= " . " onClick="javascript:updateTotalOrderByCities()" />
 	<table border="1" cellpadding="10">
 		<tr>

@@ -13,8 +13,8 @@
         <esperio-db-configuration>
         
         	<jdbc-connection name="esperEvents">
-		    	<drivermanager-connection class-name="org.enhydra.jdbc.standard.StandardDataSource" url="jdbc:derby://localhost:1527/DBEsperEvents;user=me;password=mine"  user="" password="" />
-		    	<connection-settings auto-commit="true"/>
+		    	<drivermanager-connection class-name="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/DbEvents"  user="root" password="root" />
+		    	<connection-settings auto-commit="false"/>
 		    </jdbc-connection>
 		    
 		     <upsert connection="esperEvents" stream="TotalOrderByCity" name="UpdateTotalOrderByCityStream" table-name="TableTotalOrderByCityStream" executor-name="queue1" retry="3">

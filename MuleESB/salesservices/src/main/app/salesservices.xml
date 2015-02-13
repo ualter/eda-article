@@ -27,8 +27,8 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
 
     <spring:beans>
         <spring:bean id="jdbcDataSource" name="jdbcDataSource" class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown">
-            <spring:property name="driverName" value="org.apache.derby.jdbc.ClientDriver"/>
-            <spring:property name="url" value="jdbc:derby://localhost:1527/DBEsperEvents;user=me;password=mine"/>
+            <spring:property name="driverName" value="com.mysql.jdbc.Driver"/>
+            <spring:property name="url" value="jdbc:mysql://localhost:3306/DbEvents?user=root&amp;password=root"/>
         </spring:bean>
     </spring:beans>
 	
