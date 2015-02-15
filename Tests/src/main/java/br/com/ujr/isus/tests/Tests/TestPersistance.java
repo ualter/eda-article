@@ -106,7 +106,7 @@ public class TestPersistance {
 		listOrderItem.add(orderItem);
 		o.setItens(listOrderItem);
 		o.setCustomer(cm);
-		o.setDate(Calendar.getInstance().getTime());
+		o.setDateTime(Calendar.getInstance().getTime());
 		
 		return o;
 		

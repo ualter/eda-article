@@ -2,16 +2,16 @@ package br.com.ujr.isus.canonical.events;
 
 
 
-public class TotalOrderByTime {
+public class TotalOrderByDate {
 	
-	private int tempo;
+	private int date;
 	private long total;
 	
-	public int getTempo() {
-		return tempo;
+	public int getDate() {
+		return date;
 	}
-	public void setTempo(int tempo) {
-		this.tempo = tempo;
+	public void setDate(int date) {
+		this.date = date;
 	}
 	public long getTotal() {
 		return total;

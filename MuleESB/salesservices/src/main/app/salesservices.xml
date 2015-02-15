@@ -94,20 +94,7 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     </flow>
     
     <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
-        <esper:listen statement="insert into TotalOrderByTime select distinct date.getYear() as tempo, count(*) as total from OrderPedido.win:time(1 day) group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.getTempo()] #[groovy:payload.getTotal()]" />
+        <esper:listen statement="insert into TotalOrderByDate select distinct date as date, count(*) as total from OrderPedido.win:time(1 day) group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.getDate()] #[groovy:payload.getTotal()]" />
     </flow>
-
-    <flow name="salesservicesFlow2" doc:name="salesservicesFlow2">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8090" path="events" doc:name="HTTP"/>
-        <db:select config-ref="MySQL_Configuration" doc:name="Database">
-            <db:dynamic-query><![CDATA[select * from TableTotalOrderByCityStream]]></db:dynamic-query>
-
-
-        </db:select>
-        <json:object-to-json-transformer doc:name="Object to JSON"/>
-
-    </flow>
-    
-    
 </mule>

@@ -7,7 +7,7 @@
     <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.endpoint.MessageResponse"/>
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
     <event-type name="TotalOrderByCity"  class="br.com.ujr.isus.canonical.events.TotalOrderByCity"/>
-    <event-type name="TotalOrderByTime"  class="br.com.ujr.isus.canonical.events.TotalOrderByTime"/>
+    <event-type name="TotalOrderByDate"  class="br.com.ujr.isus.canonical.events.TotalOrderByDate"/>
     
     <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
       <config-xml>	
@@ -27,9 +27,9 @@
 				</values>
 		    </upsert>
 		    
-		     <upsert connection="esperEvents" stream="TotalOrderByTime" name="UpdateTotalOrderStream" table-name="TableTotalOrderByTempoStream" executor-name="queue2" retry="3">
+		     <upsert connection="esperEvents" stream="TotalOrderByDate" name="UpdateTotalOrderStream" table-name="TableTotalOrderByDateStream" executor-name="queue2" retry="3">
 				<keys>
-					<column property="tempo"  column="TEMPO" type="integer"/>
+					<column property="date"  column="DATE" type="integer"/>
 				</keys>
 				<values>
 					<column property="total" column="QTDE" type="integer"/>

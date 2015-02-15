@@ -39,7 +39,7 @@ public class MySQLDatabase implements ISaleRepository {
 			 * Persist Products 
 			 */
 			checkPersistenceProduct(sale, em);
-			sale.setDate(Calendar.getInstance().getTime());
+			sale.setDateTime(Calendar.getInstance().getTime());
 			em.persist(sale);
 			em.getTransaction().commit();
 

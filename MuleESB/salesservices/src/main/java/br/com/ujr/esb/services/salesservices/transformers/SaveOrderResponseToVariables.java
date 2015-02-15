@@ -23,7 +23,7 @@ public class SaveOrderResponseToVariables implements Callable{
 		
 		// Inform saved order date for the Order variable sent by the client (later it will be sent to Esper as an Event)
 		Order order = (Order)eventContext.getMessage().getInvocationProperty("order");
-		order.setDate(responseSaveOrder.getDate());
+		order.setDateTime(responseSaveOrder.getDate());
 		
 		// Set the variables for the flow message
 		eventContext.getMessage().setInvocationProperty("responseSaveOrder", responseSaveOrder);

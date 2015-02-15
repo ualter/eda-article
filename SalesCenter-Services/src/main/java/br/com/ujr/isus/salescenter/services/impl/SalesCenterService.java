@@ -36,7 +36,7 @@ public class SalesCenterService implements ISalesCenterService {
 		LOGGER.info("Receiving order from customer: \"{}\"",order.getCustomer().getName());
 		facade.registerSale(order);
 		Integer orderNumber = order.getNumber();
-		Date date = order.getDate();
+		Date date = order.getDateTime();
 		LOGGER.info("Generated order \"#{}\"",orderNumber.toString());
 		return new ResponseSaveOrder(orderNumber,date);
 	}

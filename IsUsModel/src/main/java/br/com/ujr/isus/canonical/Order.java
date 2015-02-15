@@ -1,10 +1,14 @@
 package br.com.ujr.isus.canonical;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,8 +43,9 @@ public class Order implements Serializable {
 	@JoinColumn(name="id_order")
 	private List<OrderItem> itens;
 	
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "Date")
+	private Date dateTime;
 	
 	public Order(Customer customer, List<OrderItem> itens) {
 		super();
@@ -73,11 +78,20 @@ public class Order implements Serializable {
 	public void setItens(List<OrderItem> itens) {
 		this.itens = itens;
 	}
-	public Date getDate() {
-		return date;
+	public Date getDateTime() {
+		return dateTime;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDateTime(Date date) {
+		this.dateTime = date;
+	}
+	
+	public int getDate() {
+		if ( this.dateTime != null ) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String date = sdf.format(this.dateTime);
+			return Integer.parseInt(date);
+		}
+		return 0;
 	}
 	
 

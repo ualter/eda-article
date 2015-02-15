@@ -1,11 +1,12 @@
-select * from TableTotalOrderByTempoStream;
-delete from TableTotalOrderByTempoStream;
+select * from TableTotalOrderByDateStream;
+select * from TableTotalOrderByCityStream;
 select * from Customer;
 select * from Product;
 select * from OrderItem;
 select * from orders;
 
-
+drop table TableTotalOrderByTempoStream;
+CREATE TABLE TableTotalOrderByDateStream (DATE INTEGER KEY, QTDE INTEGER);
 
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE Orders;
