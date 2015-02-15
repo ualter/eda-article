@@ -94,7 +94,7 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     </flow>
     
     <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
-        <esper:listen statement="insert into TotalOrderByTime select cast(date.getYear(),java.lang.String) as tempo, count(*) as total from OrderPedido group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
+        <esper:listen statement="insert into TotalOrderByTime select distinct date.getYear() as tempo, count(*) as total from OrderPedido.win:time(1 day) group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
         <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.getTempo()] #[groovy:payload.getTotal()]" />
     </flow>
 

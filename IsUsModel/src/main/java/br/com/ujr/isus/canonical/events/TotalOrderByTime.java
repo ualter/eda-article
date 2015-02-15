@@ -1,15 +1,16 @@
 package br.com.ujr.isus.canonical.events;
 
 
+
 public class TotalOrderByTime {
 	
-	private String tempo;
+	private int tempo;
 	private long total;
 	
-	public String getTempo() {
+	public int getTempo() {
 		return tempo;
 	}
-	public void setTempo(String tempo) {
+	public void setTempo(int tempo) {
 		this.tempo = tempo;
 	}
 	public long getTotal() {

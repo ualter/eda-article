@@ -29,7 +29,7 @@
 		    
 		     <upsert connection="esperEvents" stream="TotalOrderByTime" name="UpdateTotalOrderStream" table-name="TableTotalOrderByTempoStream" executor-name="queue2" retry="3">
 				<keys>
-					<column property="tempo"  column="TEMPO" type="varchar"/>
+					<column property="tempo"  column="TEMPO" type="integer"/>
 				</keys>
 				<values>
 					<column property="total" column="QTDE" type="integer"/>

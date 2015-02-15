@@ -39,7 +39,7 @@ public class Order implements Serializable {
 	@JoinColumn(name="id_order")
 	private List<OrderItem> itens;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	public Order(Customer customer, List<OrderItem> itens) {
