@@ -4,17 +4,18 @@
                 http://www.espertech.com/schema/esper
                 http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
  
-    <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.MessageResponse"/>
+    <event-type name="MessageResponse" class="br.com.ujr.esb.services.salesservices.endpoint.MessageResponse"/>
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
     <event-type name="TotalOrderByCity"  class="br.com.ujr.isus.canonical.events.TotalOrderByCity"/>
+    <event-type name="TotalOrderByTime"  class="br.com.ujr.isus.canonical.events.TotalOrderByTime"/>
     
     <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
       <config-xml>	
         <esperio-db-configuration>
         
         	<jdbc-connection name="esperEvents">
-		    	<drivermanager-connection class-name="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/DbEvents"  user="root" password="root" />
-		    	<connection-settings auto-commit="false"/>
+		    	<drivermanager-connection class-name="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/dbevents"  user="esper" password="esper" />
+		    	<connection-settings auto-commit="true" catalog="dbevents"/>
 		    </jdbc-connection>
 		    
 		     <upsert connection="esperEvents" stream="TotalOrderByCity" name="UpdateTotalOrderByCityStream" table-name="TableTotalOrderByCityStream" executor-name="queue1" retry="3">
@@ -26,8 +27,21 @@
 				</values>
 		    </upsert>
 		    
+		     <upsert connection="esperEvents" stream="TotalOrderByTime" name="UpdateTotalOrderStream" table-name="TableTotalOrderByTempoStream" executor-name="queue2" retry="3">
+				<keys>
+					<column property="tempo"  column="TEMPO" type="varchar"/>
+				</keys>
+				<values>
+					<column property="total" column="QTDE" type="integer"/>
+				</values>
+		    </upsert>
+		    
 		    <executors>
 			  <executor name="queue1" threads="2"/>
+		    </executors>
+		    
+		     <executors>
+			  <executor name="queue2" threads="2"/>
 		    </executors>  
 		    
         </esperio-db-configuration>

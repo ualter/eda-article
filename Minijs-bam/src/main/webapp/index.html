@@ -75,6 +75,13 @@
 		
 		<script type="text/javascript">
 		
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		
 			var gauge;
 			var segDisplay;
 			
@@ -132,12 +139,6 @@
 			} 
 			
 			function send(uri, callBack) {
-				var xmlhttp;
-				if (window.XMLHttpRequest) {
-					xmlhttp = new XMLHttpRequest();
-				} else {
-					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-				}
 				xmlhttp.onreadystatechange = function() {
 					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 						var jsonString = xmlhttp.responseText;
@@ -162,13 +163,13 @@
 				send("ping", callPing);
 			}
 			function callPing() {
-				ii = ii + 1;
-				console.log ( ii + ' Called Ping...' );
+				x = x + 1;
+				console.log ( x + ' Called Ping...' );
 			}
 			
-			var ii = 0;
+			var x = 0;
 			function updateTotalOrderByCities() {
-				console.log ( ii + ' Calling... TotalOrderByCities' );
+				console.log ( x + ' Calling... TotalOrderByCities' );
 				send("totalOrderByCities", callBackTotalOrderByCities);
 			}
 			function callBackTotalOrderByCities(totalOrderByCities) {
@@ -183,7 +184,7 @@
 						gauges["curitiba"].redraw(totalOrderCity.total); 
 					}
 				} */
-				setTimeout(updateTotalOrderByCities,5000);
+				setTimeout(updateTotalOrderByCities,500);
 			}
 		</script>
  </head>

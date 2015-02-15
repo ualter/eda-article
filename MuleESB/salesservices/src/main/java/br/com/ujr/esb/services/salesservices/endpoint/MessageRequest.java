@@ -1,8 +1,8 @@
-package br.com.ujr.esb.services.salesservices;
+package br.com.ujr.esb.services.salesservices.endpoint;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import br.com.ujr.esb.services.salesservices.MessageResponse.Builder;
+import br.com.ujr.esb.services.salesservices.endpoint.MessageResponse.Builder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,0 +1,40 @@
+CREATE TABLE Customer (
+ id INTEGER(10) NOT NULL AUTO_INCREMENT,
+ name VARCHAR(80),
+ city VARCHAR(80),
+ country VARCHAR(80),
+ PRIMARY KEY(id)
+) ENGINE=INNODB;
+
+CREATE TABLE Product (
+ id INTEGER(10) NOT NULL AUTO_INCREMENT,
+ description VARCHAR(50),
+ price DECIMAL(2),
+ unit INTEGER,
+ PRIMARY KEY(id)
+) ENGINE=INNODB;
+
+CREATE TABLE OrderItem (
+ id INTEGER(10) NOT NULL AUTO_INCREMENT,
+ id_product INTEGER,
+ id_order INTEGER,
+ quantity INTEGER,
+ PRIMARY KEY(id),
+ INDEX(id_product),
+ FOREIGN KEY (id_product)
+      REFERENCES product(id)
+      ON UPDATE CASCADE,
+ FOREIGN KEY (id_order)
+      REFERENCES orders(id)
+      ON UPDATE CASCADE     
+) ENGINE=INNODB;
+
+CREATE TABLE Orders (
+ id INTEGER(10) NOT NULL AUTO_INCREMENT,
+ id_customer INTEGER(10),
+ date datetime,
+ PRIMARY KEY(id),
+ INDEX(id_customer),
+ FOREIGN KEY (id_customer)
+      REFERENCES customer(id)
+) ENGINE=INNODB;

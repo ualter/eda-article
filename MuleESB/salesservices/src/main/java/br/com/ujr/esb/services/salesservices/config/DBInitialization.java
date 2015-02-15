@@ -1,4 +1,4 @@
-package br.com.ujr.esb.services.salesservices;
+package br.com.ujr.esb.services.salesservices.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class DBInitialization implements InitializingBean {
 
 	public void afterPropertiesSet() throws Exception {
-		/*String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=root&password=root"; 
+		/*String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=esper&password=esper"; 
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();

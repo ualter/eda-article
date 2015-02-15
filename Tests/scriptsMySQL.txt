@@ -1,0 +1,13 @@
+select * from TableTotalOrderByTempoStream;
+select * from Customer;
+select * from Product;
+select * from OrderItem;
+select * from orders;
+
+
+SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE Orders;
+TRUNCATE OrderItem;
+TRUNCATE Product; 
+TRUNCATE Customer;
+SET FOREIGN_KEY_CHECKS = 1;

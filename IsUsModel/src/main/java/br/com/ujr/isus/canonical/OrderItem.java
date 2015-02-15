@@ -1,14 +1,33 @@
 package br.com.ujr.isus.canonical;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+@Entity
+@Table(name="OrderItem")
 @XmlRootElement
 public class OrderItem {
 
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
+	
+	@ManyToOne(cascade={CascadeType.PERSIST}, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_product")
 	private Product product;
+	
 	private int quantity;
 
-	
 	public OrderItem(Product product, int quantity) {
 		super();
 		this.product = product;
@@ -17,6 +36,12 @@ public class OrderItem {
 	public OrderItem() {
 	}
 
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Product getProduct() {
 		return product;
 	}

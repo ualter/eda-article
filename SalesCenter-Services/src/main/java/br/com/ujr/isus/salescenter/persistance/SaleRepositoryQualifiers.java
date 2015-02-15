@@ -16,7 +16,7 @@ public class SaleRepositoryQualifiers {
 	@Qualifier
 	@Retention(RUNTIME)
 	@Target({TYPE, METHOD, FIELD, PARAMETER})
-	public @interface Hsql {}
+	public @interface MySQL {}
 	
 	@Qualifier
 	@Retention(RUNTIME)

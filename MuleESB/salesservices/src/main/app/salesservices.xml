@@ -28,29 +28,30 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     <spring:beans>
         <spring:bean id="jdbcDataSource" name="jdbcDataSource" class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown">
             <spring:property name="driverName" value="com.mysql.jdbc.Driver"/>
-            <spring:property name="url" value="jdbc:mysql://localhost:3306/DbEvents?user=root&amp;password=root"/>
+            <spring:property name="url" value="jdbc:mysql://localhost:3306/DbEvents?user=esper&amp;password=esper"/>
         </spring:bean>
     </spring:beans>
 	
     <spring:beans>
-        <spring:bean id="dbinitialization" name="dbInitDerby" class="br.com.ujr.esb.services.salesservices.DBInitialization"/>
+        <spring:bean id="dbinitialization" name="dbInitMySQL" class="br.com.ujr.esb.services.salesservices.config.DBInitialization"/>
     </spring:beans>
     
-    <db:derby-config name="Derby_Configuration" dataSource-ref="jdbcDataSource" doc:name="Derby Configuration"/>
+    <db:derby-config name="MySQL_Configuration" dataSource-ref="jdbcDataSource" doc:name="MySQL Configuration"/>
     <ajax:connector name="Ajax" serverUrl="http://localhost:8089" resourceBase="src/main/resources" jsonCommented="true" doc:name="Ajax"/>
     
 	<flow name="SendOrderToSalesCenter" doc:name="SendOrderToSalesCenter">
     
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="9082" doc:name="Call SalesCenter Service"/>
         <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://localhost:8083/SalesCenter-Web/rest/order/register/" doc:name="HTTP"/>
-        <component class="br.com.ujr.esb.services.salesservices.SaveOrderNumberToVariable" doc:name="Save Order Number to Variable"/>
+        <json:json-to-object-transformer doc:name="JSON to Object"/>
+        <component class="br.com.ujr.esb.services.salesservices.transformers.SaveOrderResponseToVariables" doc:name="Save Order Response to Variables"/>
 
 
         <scripting:transformer doc:name="Generate UUID for Request">
             <scripting:script engine="Groovy"><![CDATA[UUID.randomUUID().toString()]]></scripting:script>
         </scripting:transformer>
         
-        <custom-transformer class="br.com.ujr.esb.services.salesservices.CompoundMessageResponseObject" doc:name="Build Message Response"/>
+        <custom-transformer class="br.com.ujr.esb.services.salesservices.transformers.CompoundMessageResponseObject" doc:name="Build Message Response"/>
         
         <esper:send eventPayload-ref="#[payload:]" config-ref="Esper-Config" doc:name="Esper"/>
         <esper:send eventPayload-ref="#[flowVars.Order]" config-ref="Esper-Config" doc:name="Esper"/>
@@ -60,9 +61,9 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
     <flow name="REST-Endpoint" doc:name="REST-Endpoint" doc:description="Receive sales orders by REST">
         <http:inbound-endpoint exchange-pattern="request-response"  doc:name="HTTP/REST" host="localhost" path="mule" port="9081"/>
         <jersey:resources doc:name="Receive Sales Order">
-            <component class="br.com.ujr.esb.services.salesservices.ReceiveSalesOrder"/>
+            <component class="br.com.ujr.esb.services.salesservices.endpoint.ReceiveSalesOrder"/>
         </jersey:resources>
-        <component class="br.com.ujr.esb.services.salesservices.SaveOrderToVariable" doc:name="Save Order to Variable"/>
+        <component class="br.com.ujr.esb.services.salesservices.transformers.SaveOrderToVariable" doc:name="Save Order to Variable"/>
 
 
         <flow-ref name="SendOrderToSalesCenter" doc:name="Send Order to Sales Center"/>
@@ -91,11 +92,17 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
         <esper:listen statement="insert into TotalOrderByCity select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
         <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.getCity()] #[groovy:payload.getTotal()]" />
     </flow>
+    
+    <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
+        <esper:listen statement="insert into TotalOrderByTime select cast(date.getYear(),java.lang.String) as tempo, count(*) as total from OrderPedido group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.getTempo()] #[groovy:payload.getTotal()]" />
+    </flow>
 
     <flow name="salesservicesFlow2" doc:name="salesservicesFlow2">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8090" path="events" doc:name="HTTP"/>
-        <db:select config-ref="Derby_Configuration" doc:name="Database">
+        <db:select config-ref="MySQL_Configuration" doc:name="Database">
             <db:dynamic-query><![CDATA[select * from TableTotalOrderByCityStream]]></db:dynamic-query>
+
 
         </db:select>
         <json:object-to-json-transformer doc:name="Object to JSON"/>

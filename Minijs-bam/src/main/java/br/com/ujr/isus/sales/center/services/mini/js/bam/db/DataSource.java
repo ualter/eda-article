@@ -10,7 +10,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 public class DataSource {
 
 	private String driver = "com.mysql.jdbc.Driver";
-	private String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=root&password=root";
+	private String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=esper&password=esper";
 
 	private static DataSource datasource;
 	private BasicDataSource ds;

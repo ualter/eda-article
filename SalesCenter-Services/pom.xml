@@ -51,41 +51,59 @@
 			<version>1.1.1</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado ao WEB-INF/lib do WAR
-			jah que estah presente no EAR/lib.-->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.2.18.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>ejb3-persistence</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.34</version>
+		</dependency>
+
+		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado 
+			ao WEB-INF/lib do WAR jah que estah presente no EAR/lib. -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<version>1.1.2</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado ao WEB-INF/lib do WAR
-			jah que estah presente no EAR/lib.-->
+		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado 
+			ao WEB-INF/lib do WAR jah que estah presente no EAR/lib. -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.7</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado ao WEB-INF/lib do WAR
-			jah que estah presente no EAR/lib.-->
+		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado 
+			ao WEB-INF/lib do WAR jah que estah presente no EAR/lib. -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.1.2</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado ao WEB-INF/lib do WAR
-			jah que estah presente no EAR/lib.-->
+		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado 
+			ao WEB-INF/lib do WAR jah que estah presente no EAR/lib. -->
 		<dependency>
 			<groupId>de.huxhorn.lilith</groupId>
 			<artifactId>de.huxhorn.lilith.logback.appender.multiplex-classic</artifactId>
 			<version>0.9.44</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado ao WEB-INF/lib do WAR
-			jah que estah presente no EAR/lib.-->
+		<!-- Adicionado apenas para colocar tag provided e assim nao ser adicionado 
+			ao WEB-INF/lib do WAR jah que estah presente no EAR/lib. -->
 		<dependency>
 			<groupId>de.huxhorn.lilith</groupId>
 			<artifactId>de.huxhorn.lilith.logback.encoder.classic</artifactId>

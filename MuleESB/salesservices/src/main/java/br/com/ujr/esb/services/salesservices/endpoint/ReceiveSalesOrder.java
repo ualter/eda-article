@@ -1,4 +1,4 @@
-package br.com.ujr.esb.services.salesservices;
+package br.com.ujr.esb.services.salesservices.endpoint;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

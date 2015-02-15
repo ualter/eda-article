@@ -1,5 +1,7 @@
 package br.com.ujr.isus.salescenter.services.impl;
 
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.ujr.isus.canonical.Order;
+import br.com.ujr.isus.canonical.messages.ResponseSaveOrder;
 import br.com.ujr.isus.salescenter.services.ISalesCenterService;
 import br.com.ujr.isus.salescenter.services.facade.SalesCenterFacade;
 
@@ -29,12 +32,13 @@ public class SalesCenterService implements ISalesCenterService {
 	@Path("/order/register/")
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Integer placeOrder(Order order) {
+	public ResponseSaveOrder placeOrder(Order order) {
 		LOGGER.info("Receiving order from customer: \"{}\"",order.getCustomer().getName());
 		facade.registerSale(order);
 		Integer orderNumber = order.getNumber();
+		Date date = order.getDate();
 		LOGGER.info("Generated order \"#{}\"",orderNumber.toString());
-		return orderNumber;
+		return new ResponseSaveOrder(orderNumber,date);
 	}
 	
 	@GET
