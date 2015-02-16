@@ -3,9 +3,9 @@
 	<property environment="my_env" />
 
 	<target name="deploy">
+		<property file="tomee-tasks.properties" />
 		<echo message="${my_env.DEV_HOME}/${minijsbam.path}"/>
 		<echo message="Deploy on Tomee of MiniJSBam WebApp" />
-		<property file="tomee-tasks.properties" />
 		<exec executable="cmd">
 		    <env key="CATALINA_HOME" value="${my_env.DEV_HOME}/${catalina.home}" />
 			<arg value="/c" />
