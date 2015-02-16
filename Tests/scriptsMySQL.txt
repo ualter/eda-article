@@ -13,6 +13,6 @@ TRUNCATE Orders;
 TRUNCATE OrderItem;
 TRUNCATE Product; 
 TRUNCATE Customer;
-TRUNCATE TableTotalOrderByTempoStream;
+TRUNCATE TableTotalOrderByDateStream;
 TRUNCATE TableTotalOrderByCityStream;
 SET FOREIGN_KEY_CHECKS = 1;

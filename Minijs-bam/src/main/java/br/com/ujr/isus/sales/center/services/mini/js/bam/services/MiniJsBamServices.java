@@ -10,12 +10,8 @@ import java.util.List;
 import javax.inject.Named;
 
 import br.com.ujr.isus.canonical.events.TotalOrderByCity;
+import br.com.ujr.isus.canonical.events.TotalOrderByDate;
 import br.com.ujr.isus.sales.center.services.mini.js.bam.db.DataSource;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Named
 public class MiniJsBamServices  {
@@ -46,6 +42,67 @@ public class MiniJsBamServices  {
 		
 		TotalOrderByCity[] result = new TotalOrderByCity[listTotalOrderByCities.size()];
 		listTotalOrderByCities.toArray(result);
+		
+		return result;
+	}
+	
+	public TotalOrderByDate[] getTotalOrderByDate() {
+		List<TotalOrderByDate> listTotalOrderByDates = new ArrayList<TotalOrderByDate>();
+		
+		Connection conn;
+		PreparedStatement st;
+		try {
+			conn = DataSource.getInstance().getConnection();
+			st = conn.prepareStatement("SELECT * FROM TableTotalOrderByDateStream");
+			
+			ResultSet rs = st.executeQuery();
+			while ( rs.next() ) {
+				int date = rs.getInt(1);
+				int qtde = rs.getInt(2);
+				
+				TotalOrderByDate t = TotalOrderByDate.Builder.Instance()
+											.date(date)
+											.total(qtde)
+											.build();
+				listTotalOrderByDates.add(t);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		TotalOrderByDate[] result = new TotalOrderByDate[listTotalOrderByDates.size()];
+		listTotalOrderByDates.toArray(result);
+		
+		return result;
+	}
+	
+	public TotalOrderByDate[] getTotalOrderByDate(int dateRequest) {
+		List<TotalOrderByDate> listTotalOrderByDates = new ArrayList<TotalOrderByDate>();
+		
+		Connection conn;
+		PreparedStatement st;
+		try {
+			conn = DataSource.getInstance().getConnection();
+			st = conn.prepareStatement("SELECT * FROM TableTotalOrderByDateStream WHERE Date = ?");
+			st.setInt(1, dateRequest);
+			
+			ResultSet rs = st.executeQuery();
+			while ( rs.next() ) {
+				int date = rs.getInt(1);
+				int qtde = rs.getInt(2);
+				
+				TotalOrderByDate t = TotalOrderByDate.Builder.Instance()
+											.date(date)
+											.total(qtde)
+											.build();
+				listTotalOrderByDates.add(t);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		TotalOrderByDate[] result = new TotalOrderByDate[listTotalOrderByDates.size()];
+		listTotalOrderByDates.toArray(result);
 		
 		return result;
 	}

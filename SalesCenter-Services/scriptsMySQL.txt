@@ -9,9 +9,19 @@ CREATE TABLE Customer (
 CREATE TABLE Product (
  id INTEGER(10) NOT NULL AUTO_INCREMENT,
  description VARCHAR(50),
- price DECIMAL(2),
+ price DECIMAL(10,2),
  unit INTEGER,
  PRIMARY KEY(id)
+) ENGINE=INNODB;
+
+CREATE TABLE Orders (
+ id INTEGER(10) NOT NULL AUTO_INCREMENT,
+ id_customer INTEGER(10),
+ date datetime,
+ PRIMARY KEY(id),
+ INDEX(id_customer),
+ FOREIGN KEY (id_customer)
+      REFERENCES customer(id)
 ) ENGINE=INNODB;
 
 CREATE TABLE OrderItem (
@@ -29,12 +39,3 @@ CREATE TABLE OrderItem (
       ON UPDATE CASCADE     
 ) ENGINE=INNODB;
 
-CREATE TABLE Orders (
- id INTEGER(10) NOT NULL AUTO_INCREMENT,
- id_customer INTEGER(10),
- date datetime,
- PRIMARY KEY(id),
- INDEX(id_customer),
- FOREIGN KEY (id_customer)
-      REFERENCES customer(id)
-) ENGINE=INNODB;

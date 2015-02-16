@@ -135,6 +135,7 @@
 			{
 				//createGauges();
 				updateTotalOrderByCities();
+				updateTotalOrderByDateToday();
 				//setInterval(ping, 2000);
 			} 
 			
@@ -165,6 +166,19 @@
 			function callPing() {
 				x = x + 1;
 				console.log ( x + ' Called Ping...' );
+			}
+			
+			function updateTotalOrderByDateToday() {
+				var d     = new Date();
+				var year  = d.getFullYear();
+				var month = ("0" + (this.getMonth() + 1)).slice(-2);
+				var day   = ("0" + this.getDate()).slice(-2); 
+				var date  = year + month + day;
+				console.log(' Calling... TotalOrderByDateToday for ' + date);
+				send("totalOrderByDateToday?date=" + date, callBackTotalOrderByDateToday);
+			}
+			function callBackTotalOrderByDateToday() {
+				console.log ( 'Called TotalOrderByDateToday.' );
 			}
 			
 			var x = 0;
