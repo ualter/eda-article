@@ -134,8 +134,8 @@
 			function initialize()
 			{
 				//createGauges();
-				updateTotalOrderByCities();
-				updateTotalOrderByDateToday();
+				//updateTotalOrderByCities();
+				updateTotalOrderToday();
 				//setInterval(ping, 2000);
 			} 
 			
@@ -155,9 +155,9 @@
 				xmlhttp.send();
 			}
 			
-			function updateTotalOrders() {
-				/* segDisplay.value(5477);
-				gauge.value(5477); */
+			function updateTotalOrdersGauge(totalOrders) {
+				segDisplay.value(totalOrders);
+				gauge.value(totalOrders);
 			}
 			
 			function ping() {
@@ -168,17 +168,23 @@
 				console.log ( x + ' Called Ping...' );
 			}
 			
-			function updateTotalOrderByDateToday() {
+			function updateTotalOrderToday() {
 				var d     = new Date();
 				var year  = d.getFullYear();
-				var month = ("0" + (this.getMonth() + 1)).slice(-2);
-				var day   = ("0" + this.getDate()).slice(-2); 
+				var month = ("0" + (d.getMonth() + 1)).slice(-2);
+				var day   = ("0" + d.getDate()).slice(-2); 
 				var date  = year + month + day;
-				console.log(' Calling... TotalOrderByDateToday for ' + date);
-				send("totalOrderByDateToday?date=" + date, callBackTotalOrderByDateToday);
+				console.log(' Calling... TotalOrderByDate for ' + date);
+				send("totalOrderByDate?date=" + date, callBackTotalOrderToday);
 			}
-			function callBackTotalOrderByDateToday() {
-				console.log ( 'Called TotalOrderByDateToday.' );
+			function callBackTotalOrderToday(totalOrderByToday) {
+				console.log ( 'Called TotalOrderByDateToday');
+				for(var i = 0; i < totalOrderByToday.length; i++) {
+					var totalOrder = totalOrderByToday[i];
+					console.log ( 'totalOrderDate=' + totalOrder.date + '=' + totalOrder.total);
+					updateTotalOrdersGauge(totalOrder.total);
+				}
+				//setTimeout(updateTotalOrderToday,1000);
 			}
 			
 			var x = 0;
@@ -255,8 +261,8 @@
 							.attr("class", "gauge")
 							.call(gauge);
 
-					segDisplay.value(8000);
-					gauge.value(2000);
+					/* segDisplay.value(8000);
+					gauge.value(2000); */
 				</script>
 			</td>
 			<td> 
