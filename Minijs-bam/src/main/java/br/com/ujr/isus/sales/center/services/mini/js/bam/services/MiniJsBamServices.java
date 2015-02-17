@@ -19,8 +19,8 @@ public class MiniJsBamServices  {
 	public TotalOrderByCity[] getTotalOrderByCity() {
 		List<TotalOrderByCity> listTotalOrderByCities = new ArrayList<TotalOrderByCity>();
 		
-		Connection conn;
-		PreparedStatement st;
+		Connection conn = null;
+		PreparedStatement st = null;
 		try {
 			conn = DataSource.getInstance().getConnection();
 			st = conn.prepareStatement("SELECT * FROM TableTotalOrderByCityStream");
@@ -38,6 +38,13 @@ public class MiniJsBamServices  {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			try {
+				if ( st != null )   st.close();
+				if ( conn != null ) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		TotalOrderByCity[] result = new TotalOrderByCity[listTotalOrderByCities.size()];
@@ -49,8 +56,8 @@ public class MiniJsBamServices  {
 	public TotalOrderByDate[] getTotalOrderByDate() {
 		List<TotalOrderByDate> listTotalOrderByDates = new ArrayList<TotalOrderByDate>();
 		
-		Connection conn;
-		PreparedStatement st;
+		Connection conn = null;
+		PreparedStatement st = null;
 		try {
 			conn = DataSource.getInstance().getConnection();
 			st = conn.prepareStatement("SELECT * FROM TableTotalOrderByDateStream");
@@ -68,6 +75,13 @@ public class MiniJsBamServices  {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			try {
+				if ( st != null )   st.close();
+				if ( conn != null ) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		TotalOrderByDate[] result = new TotalOrderByDate[listTotalOrderByDates.size()];
@@ -79,8 +93,8 @@ public class MiniJsBamServices  {
 	public TotalOrderByDate[] getTotalOrderByDate(int dateRequest) {
 		List<TotalOrderByDate> listTotalOrderByDates = new ArrayList<TotalOrderByDate>();
 		
-		Connection conn;
-		PreparedStatement st;
+		Connection conn = null;
+		PreparedStatement st = null;
 		try {
 			conn = DataSource.getInstance().getConnection();
 			st = conn.prepareStatement("SELECT * FROM TableTotalOrderByDateStream WHERE Date = ?");
@@ -90,7 +104,6 @@ public class MiniJsBamServices  {
 			while ( rs.next() ) {
 				int date = rs.getInt(1);
 				int qtde = rs.getInt(2);
-				
 				TotalOrderByDate t = TotalOrderByDate.Builder.Instance()
 											.date(date)
 											.total(qtde)
@@ -99,6 +112,13 @@ public class MiniJsBamServices  {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			try {
+				if ( st != null )   st.close();
+				if ( conn != null ) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		TotalOrderByDate[] result = new TotalOrderByDate[listTotalOrderByDates.size()];

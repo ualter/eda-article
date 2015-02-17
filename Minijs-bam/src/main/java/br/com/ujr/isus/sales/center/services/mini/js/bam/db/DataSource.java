@@ -10,7 +10,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 public class DataSource {
 
 	private String driver = "com.mysql.jdbc.Driver";
-	private String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=esper&password=esper";
+	private String dbURL = "jdbc:mysql://localhost:3306/DbEvents?user=esper&password=esper&autoReconnect=true";
 
 	private static DataSource datasource;
 	private BasicDataSource ds;
@@ -28,6 +28,7 @@ public class DataSource {
 			ds.setUrl(dbURL);
 			ds.setMinIdle(5);
 			ds.setMaxIdle(20);
+			ds.setTestWhileIdle(true);
 			ds.setMaxOpenPreparedStatements(180);
 
 		} catch (InstantiationException | IllegalAccessException

@@ -3,11 +3,10 @@
 		<title>Mini JS BAM</title>
 	    <link rel='stylesheet' href='styles.css' type='text/css'>
 	    <script type="text/javascript" src="js/d3.v3.min.js"></script>
-	    <!-- 
 	    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
-    	<script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script> -->
+    	<script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
 	    <script type="text/javascript" src="js/iopctrl.js"></script>
-		<!-- <script type="text/javascript" src="js/gauge.js"></script>  -->
+		<script type="text/javascript" src="js/gauge.js"></script>
 		<script type="text/javascript" src="js/d3.js"></script>
 	    
 	    <style>
@@ -85,7 +84,7 @@
 			var gauge;
 			var segDisplay;
 			
-			/* var gauges = [];
+			var gauges = [];
 			
 			function createGauge(name, label, min, max)
 			{
@@ -111,7 +110,7 @@
 				createGauge("saopaulo", "Sao Paulo");
 				createGauge("poa", "Porto Alegre");
 				createGauge("curitiba", "Curitiba");
-			} */
+			} 
 			
 			/* function updateGauges()
 			{
@@ -133,11 +132,10 @@
 			*/
 			function initialize()
 			{
-				//createGauges();
-				//updateTotalOrderByCities();
-				updateTotalOrderToday();
-				//setInterval(ping, 2000);
-			} 
+				createGauges();
+				setInterval(updateTotalOrderByCities,1000);
+				setInterval(updateTotalOrderToday,500);
+			}
 			
 			function send(uri, callBack) {
 				xmlhttp.onreadystatechange = function() {
@@ -166,6 +164,7 @@
 			function callPing() {
 				x = x + 1;
 				console.log ( x + ' Called Ping...' );
+				setTimeout(ping,1000);
 			}
 			
 			function updateTotalOrderToday() {
@@ -174,37 +173,31 @@
 				var month = ("0" + (d.getMonth() + 1)).slice(-2);
 				var day   = ("0" + d.getDate()).slice(-2); 
 				var date  = year + month + day;
-				console.log(' Calling... TotalOrderByDate for ' + date);
 				send("totalOrderByDate?date=" + date, callBackTotalOrderToday);
 			}
 			function callBackTotalOrderToday(totalOrderByToday) {
-				console.log ( 'Called TotalOrderByDateToday');
 				for(var i = 0; i < totalOrderByToday.length; i++) {
 					var totalOrder = totalOrderByToday[i];
-					console.log ( 'totalOrderDate=' + totalOrder.date + '=' + totalOrder.total);
 					updateTotalOrdersGauge(totalOrder.total);
 				}
-				//setTimeout(updateTotalOrderToday,1000);
 			}
 			
 			var x = 0;
 			function updateTotalOrderByCities() {
-				console.log ( x + ' Calling... TotalOrderByCities' );
+				console.log ('Called updateTotalOrderByCities' );
 				send("totalOrderByCities", callBackTotalOrderByCities);
 			}
 			function callBackTotalOrderByCities(totalOrderByCities) {
-				console.log ( 'Called TotalOrderByCities.' );
-				/* for(var i = 0; i < totalOrderByCities.length; i++) {
+				for(var i = 0; i < totalOrderByCities.length; i++) {
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
-					}  else if ( totalOrderCity.city == "Porto Alegre" ) {
+					} /*  else if ( totalOrderCity.city == "Porto Alegre" ) {
 						gauges["poa"].redraw(totalOrderCity.total);
 					} else if ( totalOrderCity.city == "Curitiba" ) {
 						gauges["curitiba"].redraw(totalOrderCity.total); 
-					}
-				} */
-				setTimeout(updateTotalOrderByCities,500);
+					} */
+				}
 			}
 		</script>
  </head>
