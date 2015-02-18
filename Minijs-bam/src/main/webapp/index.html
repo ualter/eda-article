@@ -93,7 +93,7 @@
 					size: 250,
 					label: label,
 					min: undefined != min ? min : 0,
-					max: undefined != max ? max : 3000,
+					max: undefined != max ? max : 1000,
 					minorTicks: 10
 				}
 				
@@ -112,27 +112,18 @@
 				createGauge("curitiba", "Curitiba");
 			} 
 			
-			/* function updateGauges()
-			{
-				for (var key in gauges)
-				{
-					var value = getRandomValue(gauges[key])
-					gauges[key].redraw(value);
-				}
-				
-				segDisplay.value(5477);
-				gauge.value(5477);
-			} */
-			
-			/* function getRandomValue(gauge)
-			{
-				var overflow = 0; //10;
-				return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
-			}
-			*/
 			function initialize()
 			{
 				createGauges();
+				
+				var d     = new Date();
+				var year  = d.getFullYear();
+				var month = ("0" + (d.getMonth() + 1)).slice(-2);
+				var day   = ("0" + d.getDate()).slice(-2); 
+				var dataHoje  = day + "/" + month + "/" + year;
+				document.getElementById("titleTotalPedidos").innerHTML = "<b>Total de Pedidos " + dataHoje + "</b>";
+				
+				
 				setInterval(updateTotalOrderByCities,1000);
 				setInterval(updateTotalOrderToday,500);
 			}
@@ -173,6 +164,7 @@
 				var month = ("0" + (d.getMonth() + 1)).slice(-2);
 				var day   = ("0" + d.getDate()).slice(-2); 
 				var date  = year + month + day;
+				dataHoje  = day + "/" + month + "/" + year;
 				send("totalOrderByDate?date=" + date, callBackTotalOrderToday);
 			}
 			function callBackTotalOrderToday(totalOrderByToday) {
@@ -192,22 +184,23 @@
 					var totalOrderCity = totalOrderByCities[i];
 					if ( totalOrderCity.city == "Sao Paulo" ) {
 						gauges["saopaulo"].redraw(totalOrderCity.total);
-					} /*  else if ( totalOrderCity.city == "Porto Alegre" ) {
+					} else if ( totalOrderCity.city == "Porto Alegre" ) {
 						gauges["poa"].redraw(totalOrderCity.total);
 					} else if ( totalOrderCity.city == "Curitiba" ) {
 						gauges["curitiba"].redraw(totalOrderCity.total); 
-					} */
+					}
 				}
 			}
 		</script>
  </head>
   
  <body onload="initialize();">
- 	<input type="button" value= " . " onClick="javascript:updateTotalOrderByCities()" />
 	<table border="1" cellpadding="10">
 		<tr>
 			<td align="center" style="background-color:darkgray;color:white;">
-				<b>Total de Pedidos</b>
+				<div id="titleTotalPedidos">
+					<b>Total de Pedidos</b>
+				</div>
 			</td>
 			<td align="center" style="background-color:darkgray;color:white;">
 				<b>Total de Pedidos Principais Cidades</b>
@@ -221,7 +214,7 @@
 				<script>
 					var svg = d3.select("#speedometer")
 							.append("svg:svg")
-							.attr("width", 460)
+							.attr("width", 480)
 							.attr("height", 400);
 
 
@@ -231,12 +224,12 @@
 							.indicator(iopctrl.defaultGaugeIndicator);
 					gauge.axis().orient("in")
 							.normalize(true)
-							.ticks(12)
+							.ticks(10)
 							.tickSubdivide(3)
-							.tickSize(10, 8, 10)
+							.tickSize(12, 10, 12)
 							.tickPadding(5)
 							.scale(d3.scale.linear()
-									.domain([0, 8000])
+									.domain([0, 5000])
 									.range([-3*Math.PI/4, 3*Math.PI/4]));
 
 					segDisplay = iopctrl.segdisplay()
@@ -253,9 +246,6 @@
 					svg.append("g")
 							.attr("class", "gauge")
 							.call(gauge);
-
-					/* segDisplay.value(8000);
-					gauge.value(2000); */
 				</script>
 			</td>
 			<td> 

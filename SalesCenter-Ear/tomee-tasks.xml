@@ -18,6 +18,7 @@
 	<target name="deploy">
 		<echo message="Deploy on Tomee of SalesCenter-EAR" />
 		<property file="tomee-tasks.properties" />
+		<echo message="${my_env.DEV_HOME}/${tomee.path}/bin/tomee.bat" />
 		<exec executable="cmd">
 		    <env key="CATALINA_HOME" value="${my_env.DEV_HOME}/${catalina.home}" />
 			<arg value="/c" />
@@ -30,6 +31,7 @@
 	<target name="undeploy">
 		<echo message="Undeploy on Tomee of SalesCenter-EAR" />
 		<property file="tomee-tasks.properties" />
+		<echo message="${my_env.DEV_HOME}/${tomee.path}/bin/tomee.bat" />
 		<exec executable="cmd">
 		    <env key="CATALINA_HOME" value="${my_env.DEV_HOME}/${catalina.home}" />
 			<arg value="/c" />
