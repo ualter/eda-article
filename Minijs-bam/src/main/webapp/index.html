@@ -122,6 +122,7 @@
 				var day   = ("0" + d.getDate()).slice(-2); 
 				var dataHoje  = day + "/" + month + "/" + year;
 				document.getElementById("titleTotalPedidos").innerHTML = "<b>Total de Pedidos " + dataHoje + "</b>";
+				document.getElementById("titleTotalPedidosCidade").innerHTML = "<b>Total de Pedidos Principais Cidades " + dataHoje + "</b>";
 				
 				
 				setInterval(updateTotalOrderByCities,1000);
@@ -203,7 +204,9 @@
 				</div>
 			</td>
 			<td align="center" style="background-color:darkgray;color:white;">
-				<b>Total de Pedidos Principais Cidades</b>
+				<div id="titleTotalPedidosCidade">
+					<b>Total de Pedidos Principais Cidades</b>
+				</div>
 			</td>
 		</tr>	
 		<tr>
