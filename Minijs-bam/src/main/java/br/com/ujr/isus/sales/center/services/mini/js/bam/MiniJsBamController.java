@@ -17,7 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Named
-@WebServlet(name = "MiniJsBamController", urlPatterns = { "/totalOrderByCities", "/totalOrderByDate","/ping" }, loadOnStartup = 1)
+@WebServlet(name = "MiniJsBamController", 
+		    urlPatterns = { "/totalOrderByCities", "/totalOrderByDate","/totalOrderByTimeFrame","/ping" },
+		    loadOnStartup = 1)
 public class MiniJsBamController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +39,10 @@ public class MiniJsBamController extends HttpServlet {
 				int dateRequest = Integer.parseInt(req.getParameter("date"));
 				jsonContent = this.transformToJson ( this.services.getTotalOrderByDate(dateRequest));
 				break;
+			case "/totalOrderByTimeFrame":
+				String timeFrameRequest = req.getParameter("timeFrame");
+				jsonContent = this.transformToJson ( this.services.getTotalOrderByTimeFrame(timeFrameRequest));
+				break;	
 			case "/ping":
 				jsonContent = this.ping();
 				break;
@@ -72,24 +78,5 @@ public class MiniJsBamController extends HttpServlet {
 		}
 		return result;
 	}
-	
-	/*private class Message {
-		private String transaction;
-		private Object payload;
-		private Message() {
-		}
-		public String getTransaction() {
-			return transaction;
-		}
-		public void setTransaction(String transaction) {
-			this.transaction = transaction;
-		}
-		public Object getPayload() {
-			return payload;
-		}
-		public void setPayload(Object payload) {
-			this.payload = payload;
-		}
-	}*/
 
 }

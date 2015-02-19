@@ -8,6 +8,7 @@
 	    <script type="text/javascript" src="js/iopctrl.js"></script>
 		<script type="text/javascript" src="js/gauge.js"></script>
 		<script type="text/javascript" src="js/d3.js"></script>
+		<script type="text/javascript" src="js/accounting.js"></script>
 	    
 	    <style>
 	        body {
@@ -17,6 +18,14 @@
 	        }
 			table {
 				border-collapse: collapse;
+			}
+			.labels {
+				font: 12px Verdana;
+			}
+			.labelsValue {
+				font: 12px Verdana;
+				color:blue;
+				font-weight: bold;
 			}
 	
 	        .unselectable {
@@ -110,6 +119,8 @@
 				createGauge("saopaulo", "Sao Paulo");
 				createGauge("poa", "Porto Alegre");
 				createGauge("curitiba", "Curitiba");
+				createGauge("last10secsOrders","10 Secs");
+				createGauge("last30secsOrders","30 Secs");
 			} 
 			
 			function initialize()
@@ -124,9 +135,9 @@
 				document.getElementById("titleTotalPedidos").innerHTML = "<b>Total de Pedidos " + dataHoje + "</b>";
 				document.getElementById("titleTotalPedidosCidade").innerHTML = "<b>Total de Pedidos Principais Cidades " + dataHoje + "</b>";
 				
-				
 				setInterval(updateTotalOrderByCities,1000);
 				setInterval(updateTotalOrderToday,500);
+				setInterval(updateTotalOrderTimeFrame,100);
 			}
 			
 			function send(uri, callBack) {
@@ -175,7 +186,38 @@
 				}
 			}
 			
-			var x = 0;
+			function updateTotalOrderTimeFrame() {
+				console.log ('Called updateTotalOrderTimeFrame' );
+				send("totalOrderByTimeFrame?timeFrame=10secs_30secs_HigherOrder60secs_SumOrderValue",callBackTotalOrderTimeFrame);
+			}
+			function callBackTotalOrderTimeFrame(totalOrderTimeFrame) {
+				for(var i = 0; i < totalOrderTimeFrame.length; i++) {
+					var item = totalOrderTimeFrame[i];
+					if        ( item.timeFrame == "10secs" ) {
+						gauges["last10secsOrders"].redraw(item.qtdeTotal);
+						
+						document.getElementById("vlr10Secs").innerHTML = 
+							accounting.formatMoney( item.valueTotal, "R$", 2, ".", ","); 
+						
+					} else if ( item.timeFrame == "30secs" ) {
+						gauges["last30secsOrders"].redraw(item.qtdeTotal);
+						
+						document.getElementById("vlr30Secs").innerHTML = 
+							accounting.formatMoney( item.valueTotal, "R$", 2, ".", ",");
+						
+					} else if ( item.timeFrame == "HigherOrder60secs" ) {
+						
+						document.getElementById("vlrPedidoAlto").innerHTML = 
+							accounting.formatMoney( item.valueTotal, "R$", 2, ".", ",");
+						
+					} else if ( item.timeFrame == "SumOrderValue" ) {
+						
+						document.getElementById("vlrAcumulado").innerHTML = 
+							accounting.formatMoney( item.valueTotal, "R$", 2, ".", ",");
+					}
+				}
+			}
+			
 			function updateTotalOrderByCities() {
 				console.log ('Called updateTotalOrderByCities' );
 				send("totalOrderByCities", callBackTotalOrderByCities);
@@ -255,6 +297,51 @@
 				<span id="saopauloGaugeContainer"></span>
 				<span id="poaGaugeContainer"></span>
 				<span id="curitibaGaugeContainer"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="middle" align="right">
+				<table cellpadding="5">
+					<tr>
+						<td rowspan="2">
+							<table>
+								<tr>
+									<td width="100px"><span class="labels">Valor Total Pedidos Últimos <b>10 segundos</b>:</span><td>
+									<td align="right"><span id="vlr10Secs" class="labelsValue">R$ 0,00</span><td>
+								</tr>
+								<tr>
+									<td><span class="labels">Valor Total Pedidos Últimos <b>30 segundos</b>:</span><td>
+									<td align="right"><span id="vlr30Secs" class="labelsValue">R$ 0,00</span><td>
+								</tr>
+								<tr>
+									<td><span class="labels">Valor <b>Pedido mais alto valor Últimos 60 segundos</b>:</span><td>
+									<td align="right"><span id="vlrPedidoAlto" class="labelsValue">R$ 0,00</span><td>
+								</tr>
+								<tr>
+									<td><span class="labels">Valor <b>Total Acumulado Pedidos</b>:</span><td>
+									<td align="right"><span id="vlrAcumulado" class="labelsValue">R$ 0,00</span><td>
+								</tr>
+							</table>
+						</td>
+						<td rowspan="2" width="100px">
+							&nbsp;
+						</td>
+						<td align="center">
+							<span class="labels">Total Pedidos<br/>Últimos <b>10 segundos</b></span>
+						</td>
+						<td align="center">	
+							<span class="labels">Total Pedidos<br/>Últimos <b>30 segundos</b></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="center">
+							<span id="last10secsOrdersGaugeContainer"></span>
+						</td>
+						<td align="center">
+							<span id="last30secsOrdersGaugeContainer"></span>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>
