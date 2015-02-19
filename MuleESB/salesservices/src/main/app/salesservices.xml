@@ -71,30 +71,18 @@ http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/
 
     </flow>
     
-    <!-- 
-    <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
-        <esper:listen statement="select  Math.round(itens.sumOf(i => i.quantity * i.product.price) * 100) / 100.00f as totalOrder from OrderPedido"/>
-        <esper:listen statement="select  itens.sumOf(i => i.quantity * i.product.price) as totalOrder from OrderPedido" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.get('totalOrder')]" />
-    </flow>
-     -->
-    
-    <!-- <flow name="Event-Listener-Average-Total-Order-60s" doc:name="Event-Listener-Average-Total-Order-60s">
-        <esper:listen statement="select avg(itens.sumOf(i => i.quantity * i.product.price)) as averageTotalOrder60 from OrderPedido.win:time(60 seconds)" config-ref="Esper-Config" doc:name="Average Total Order 60 secs"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="Average Total Order Last 60 secs: #[groovy:payload.get('averageTotalOrder60')]" />
-    </flow> -->
-    <!-- <flow name="Event-Listener2" doc:name="Event-Listener2">
-        <esper:listen statement="select customer.name from OrderPedido" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
-        <logger category="INFO" doc:name="Logger" level="INFO" message="Customer: #[groovy:payload.get('customer.name')]" />
-    </flow> -->
-    
-    <flow name="Event-Listener-Total-Order-By-City" doc:name="Event-Listener-Total-Order-By-City">
+    <flow name="Event-Listener-Total-Order-By-City-Today" doc:name="Event-Listener-Total-Order-By-City">
         <esper:listen statement="insert into TotalOrderByCity select distinct customer.city as city, count(*) as total from OrderPedido.win:time(1 day) group by customer.city" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
         <logger category="INFO" doc:name="Logger" level="INFO" message="City: #[groovy:payload.getCity()] #[groovy:payload.getTotal()]" />
     </flow>
     
-    <flow name="Event-Listener-Total-Order" doc:name="Event-Listener-Total-Order">
+    <flow name="Event-Listener-Total-Order-Today" doc:name="Event-Listener-Total-Order-Today">
         <esper:listen statement="insert into TotalOrderByDate select distinct date as date, count(*) as total from OrderPedido.win:time(1 day) group by date" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
         <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order: #[groovy:payload.getDate()] #[groovy:payload.getTotal()]" />
+    </flow>
+    
+    <flow name="Event-Listener-Total-Order-Last-10-Minutes" doc:name="Event-Listener-Total-Order-Last-30-seconds">
+        <esper:listen statement="insert into TotalOrderByTimeFrame select sum(totalOrder) as valueTotal, count(*) as qtdeTotal from OrderPedido.win:time(30 seconds)" config-ref="Esper-Config" doc:name="Esper (Streaming)"/>
+        <logger category="INFO" doc:name="Logger" level="INFO" message="Total Order Last 30 seconds: #[groovy:payload.getTotalOrder()] #[groovy:payload.getQtdeTotal()]" />
     </flow>
 </mule>

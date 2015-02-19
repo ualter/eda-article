@@ -7,6 +7,7 @@ select * from orders;
 
 drop table TableTotalOrderByTempoStream;
 CREATE TABLE TableTotalOrderByDateStream (DATE INTEGER KEY, QTDE INTEGER);
+CREATE TABLE TableTotalOrderByTimeFrameStream (TIMEFRAME VARCHAR(30), QTDE INTEGER);
 
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE Orders;

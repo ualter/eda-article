@@ -8,6 +8,7 @@
     <event-type name="OrderPedido" class="br.com.ujr.isus.canonical.Order"/>
     <event-type name="TotalOrderByCity"  class="br.com.ujr.isus.canonical.events.TotalOrderByCity"/>
     <event-type name="TotalOrderByDate"  class="br.com.ujr.isus.canonical.events.TotalOrderByDate"/>
+    <event-type name="TotalOrderByTimeFrame"  class="br.com.ujr.isus.canonical.events.TotalOrderByTimeFrame"/>
     
     <plugin-loader name="EsperIODBAdapter"  class-name="com.espertech.esperio.db.EsperIODBAdapterPlugin">
       <config-xml>	
@@ -36,12 +37,28 @@
 				</values>
 		    </upsert>
 		    
+		    <upsert connection="esperEvents" stream="TotalOrderByTimeFrame" name="UpdateTotalOrderByTimeFrameStream" table-name="TableTotalOrderByTimeFrameStream" executor-name="queue3" retry="3">
+				<keys>
+					<column property="timeFrame"  column="TIMEFRAME" type="varchar"/>
+				</keys>
+				<values>
+					<column property="qtdeTotal" column="QTDE" type="integer"/>
+				</values>
+				<values>
+					<column property="valueTotal" column="VALUE" type="decimal"/>
+				</values>
+		    </upsert>
+		    
 		    <executors>
-			  <executor name="queue1" threads="2"/>
+			  <executor name="queue1" threads="3"/>
 		    </executors>
 		    
 		     <executors>
-			  <executor name="queue2" threads="2"/>
+			  <executor name="queue2" threads="3"/>
+		    </executors> 
+		    
+		    <executors>
+			  <executor name="queue3" threads="3"/>
 		    </executors>  
 		    
         </esperio-db-configuration>

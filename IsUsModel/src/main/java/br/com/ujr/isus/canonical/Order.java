@@ -94,5 +94,13 @@ public class Order implements Serializable {
 		return 0;
 	}
 	
+	public float getTotalOrder() {
+		float valueTotal = 0;
+		for(OrderItem i : this.itens) {
+			valueTotal += (i.getQuantity() * i.getProduct().getPrice());
+		}
+		return valueTotal;
+	}
+	
 
 }
